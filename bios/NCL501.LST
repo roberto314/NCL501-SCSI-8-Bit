@@ -1,0 +1,2974 @@
+            ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 1
+
+
+				PAGE  59,132
+
+				;€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+				;€€					                                 €€
+				;€€				NCL501	                                 €€
+				;€€					                                 €€
+				;€€      Created:   25-Jun-21		                                 €€
+				;€€      Code type: zero start		                                 €€
+				;€€      Passes:    5          Analysis	Options on: QRS                  €€
+				;€€      COPYRIGHT 1988,1989 NATIONAL COMPUTER LTD.                      €€
+				;€€					                                 €€
+				;€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€
+
+				.err     Target Assembler set to NONE, re-assembly not recommended
+
+
+				; The following equates show data references outside the range of the program.
+
+     = 0042			data_1e		equ	42h			; (0000:0042=0)
+     = 0043			data_2e		equ	43h			; (0000:0043=0F0h)
+     = 0044			data_3e		equ	44h			; (0000:0044=0)
+     = 0045			data_4e		equ	45h			; (0000:0045=11h)
+     = 0046			data_5e		equ	46h			; (0000:0046=0)
+     = 0047			data_6e		equ	47h			; (0000:0047=0F0h)
+     = 0048			data_7e		equ	48h			; (0000:0048=20h)
+     = 0074			data_8e		equ	74h			; (0000:0074=0A4h)
+     = 0075			data_9e		equ	75h			; (0000:0075=0F0h)
+     = 0104			data_10e	equ	104h			; (0000:0104=1160h)
+     = 0118			data_11e	equ	118h			; (0000:0118=1180h)
+     = 0178			data_12e	equ	178h			; (0000:0178=60h)
+     = 0180			data_13e	equ	180h			; (0000:0180=0)
+     = 0181			data_14e	equ	181h			; (0000:0181=0)
+     = 0182			data_15e	equ	182h			; (0000:0182=0)
+     = 0183			data_16e	equ	183h			; (0000:0183=0)
+     = 0185			data_17e	equ	185h			; (0000:0185=0)
+     = 0186			data_18e	equ	186h			; (0000:0186=0)
+     = 0187			data_19e	equ	187h			; (0000:0187=0)
+     = 0188			data_20e	equ	188h			; (0000:0188=0)
+     = 018C			data_21e	equ	18Ch			; (0000:018C=0)
+     = 0190			data_22e	equ	190h			; (0000:0190=0)
+     = 0191			data_23e	equ	191h			; (0000:0191=0)
+     = 0192			data_24e	equ	192h			; (0000:0192=0)
+     = 0193			data_25e	equ	193h			; (0000:0193=0)
+     = 0194			data_26e	equ	194h			; (0000:0194=0)
+     = 0195			data_27e	equ	195h			; (0000:0195=0)
+     = 0196			data_28e	equ	196h			; (0000:0196=0)
+     = 0197			data_29e	equ	197h			; (0000:0197=0)
+     = 0198			data_30e	equ	198h			; (0000:0198=60h)
+     = 0199			data_31e	equ	199h			; (0000:0199=10h)
+     = 019A			data_32e	equ	19Ah			; (0000:019A=0)
+     = 019B			data_33e	equ	19Bh			; (0000:019B=0F0h)
+     = 019E			data_34e	equ	19Eh			; (0000:019E=41h)
+     = 7C00			data_35e	equ	7C00h			;*(0000:7C00=6Eh)
+     = 0042			dsk_status_1	equ	42h			; (0040:0042=0)
+     = 0043			dsk_status_2	equ	43h			; (0040:0043=0)
+     = 0044			dsk_status_3	equ	44h			; (0040:0044=0)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 2
+
+     = 0045			dsk_status_4	equ	45h			; (0040:0045=0)
+     = 0046			dsk_status_5	equ	46h			; (0040:0046=0)
+     = 0047			dsk_status_6	equ	47h			; (0040:0047=0)
+     = 0048			dsk_status_7	equ	48h			; (0040:0048=0)
+     = 006C			timer_low	equ	6Ch			; (0040:006C=8A46h)
+     = 006E			timer_hi	equ	6Eh			; (0040:006E=13h)
+     = 0072			warm_boot_flag	equ	72h			; (0040:0072=0)
+     = 0074			hdsk_status_1	equ	74h			; (0040:0074=0)
+     = 0075			hdsk_count	equ	75h			; (0040:0075=2)
+     = 0076			hdsk_head_ctrl	equ	76h			; (0040:0076=0)
+     = 0077			hdsk_ctrl_port	equ	77h			; (0040:0077=0)
+     = 7DFE			data_102e	equ	7DFEh			;*(2924:7DFE=0)
+
+				seg_a		segment	byte public
+						assume	cs:seg_a, ds:seg_a
+
+
+						org	0
+
+				ncl501		proc	far
+
+2924:0000			start:
+2924:0000  55					push	bp
+2924:0001  AA					stosb				; Store al to es:[di]
+2924:0002  0C EB				or	al,0EBh
+2924:0004  31 E9				xor	cx,bp
+2924:0006  46					inc	si
+2924:0007  04 28				add	al,28h			; '('
+2924:0009  63 29 20				db	 63h, 29h, 20h
+2924:000C  43 4F 50 59 52 49	copyright	db	'COPYRIGHT 1988,1989 NATIONAL COM'
+2924:0012  47 48 54 20 31 39
+2924:0018  38 38 2C 31 39 38
+2924:001E  39 20 4E 41 54 49
+2924:0024  4F 4E 41 4C 20 43
+2924:002A  4F 4D
+2924:002C  50 55 54 45 52 20			db	'PUTER LTD.'
+2924:0032  4C 54 44 2E
+2924:0036  B8 40 00 8E D8 A0			db	0B8h, 40h, 00h, 8Eh,0D8h,0A0h
+2924:003C  75 00 3C 00				db	 75h, 00h, 3Ch, 00h
+2924:0040  74 47				db	 74h, 47h
+2924:0042  3C			data_38		db	3Ch			; Data table (indexed access)
+										;  xref 2924:08F4, 0B2D, 0BC0, 0F9C
+										;            0FDA, 10C5
+2924:0043  01			data_39		db	1			;  xref 2924:0B32, 0B37, 0BC5, 0BCC
+										;            1146
+2924:0044  74			data_40		db	74h			;  xref 2924:0B3A, 0BCF, 10CA
+2924:0045  03			data_41		db	3			;  xref 2924:0B3F, 0BD4, 10CF
+2924:0046  E9			data_42		db	0E9h			;  xref 2924:0B44, 0BD9, 0FAB, 0FE7
+										;            0FF2, 10D4
+2924:0047  A7			data_43		db	0A7h			;  xref 2924:0B49, 0BDE, 10D9
+2924:0048  01			data_44		db	1			;  xref 2924:090B, 0917, 0923, 0944
+										;            094D, 0981, 098A, 0B97
+										;            0BA4, 0C47, 0C54, 0E7F
+										;            0F26, 10B9, 112B, 114E
+										;            1155
+2924:0049  33 C0 8E D8 8E C0			db	 33h,0C0h, 8Eh,0D8h, 8Eh,0C0h
+2924:004F  B0 01 A2 78 01 FA			db	0B0h, 01h,0A2h, 78h, 01h,0FAh
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 3
+
+2924:0055  B8 8A 10 A3 34 00			db	0B8h, 8Ah, 10h,0A3h, 34h, 00h
+2924:005B  8C 0E 36 00 C7 06			db	 8Ch, 0Eh, 36h, 00h,0C7h, 06h
+2924:0061  18 01 90 01 33 C0			db	 18h, 01h, 90h, 01h, 33h,0C0h
+2924:0067  A3 1A 01 A1 4C 00			db	0A3h, 1Ah, 01h,0A1h, 4Ch, 00h
+2924:006D  A3 74 01 A1 4E 00			db	0A3h, 74h, 01h,0A1h, 4Eh, 00h
+2924:0073  A3 76 01				db	0A3h, 76h, 01h
+2924:0076  C7			data_45		db	0C7h			;  xref 2924:0911, 094A, 0B9D, 0C4D
+										;            10B5, 1149
+2924:0077  06					db	6
+2924:0078  004C			data_46		dw	4Ch
+2924:007A  0534			data_47		dw	534h
+2924:007C  8C 0E 4E 00 B0 FF			db	 8Ch, 0Eh, 4Eh, 00h,0B0h,0FFh
+2924:0082  A2 8C 01 FB EB 51			db	0A2h, 8Ch, 01h,0FBh,0EBh, 51h
+2924:0088  90 33 C0 8E D8 8E			db	 90h, 33h,0C0h, 8Eh,0D8h, 8Eh
+2924:008E  C0 32 C0 A2 78 01			db	0C0h, 32h,0C0h,0A2h, 78h, 01h
+2924:0094  FA B8 8A 10 A3 34			db	0FAh,0B8h, 8Ah, 10h,0A3h, 34h
+2924:009A  00 8C 0E 36 00 C7			db	 00h, 8Ch, 0Eh, 36h, 00h,0C7h
+2924:00A0  06 04 01 90 01 33			db	 06h, 04h, 01h, 90h, 01h, 33h
+2924:00A6  C0 A3 06 01 C7 06			db	0C0h,0A3h, 06h, 01h,0C7h, 06h
+2924:00AC  18 01 A4 01 A3 1A			db	 18h, 01h,0A4h, 01h,0A3h, 1Ah
+2924:00B2  01 C7 06 64 00 F7			db	 01h,0C7h, 06h, 64h, 00h,0F7h
+2924:00B8  01 8C 0E 66 00 A1			db	 01h, 8Ch, 0Eh, 66h, 00h,0A1h
+2924:00BE  4C 00 A3 00 01 A1			db	 4Ch, 00h,0A3h, 00h, 01h,0A1h
+2924:00C4  4E 00 A3 02 01 C7			db	 4Eh, 00h,0A3h, 02h, 01h,0C7h
+2924:00CA  06 4C 00 34 05 8C			db	 06h, 4Ch, 00h, 34h, 05h, 8Ch
+2924:00D0  0E 4E 00 B0 FF A2			db	 0Eh, 4Eh, 00h,0B0h,0FFh,0A2h
+2924:00D6  8C 01 FB				db	 8Ch, 01h,0FBh
+2924:00D9			loc_2:
+2924:00D9  B8 0040				mov	ax,40h
+2924:00DC  50					push	ax
+2924:00DD  1F					pop	ds
+2924:00DE  BA 0338				mov	dx,338h
+2924:00E1  B0 04				mov	al,4
+2924:00E3  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:00E4  C6 06 0077 00			mov	byte ptr ds:hdsk_ctrl_port,0	; (0040:0077=0)
+2924:00E9  C6 06 0074 00			mov	byte ptr ds:hdsk_status_1,0	; (0040:0074=0)
+2924:00EE  C6 06 0043 00			mov	byte ptr ds:dsk_status_2,0	; (0040:0043=0)
+2924:00F3  A1 0072				mov	ax,ds:warm_boot_flag	; (0040:0072=0)
+2924:00F6  3D 1234				cmp	ax,1234h
+2924:00F9  74 0B				je	loc_5			; Jump if equal
+2924:00FB  BA 0028				mov	dx,28h
+2924:00FE			loc_3:						;  xref 2924:0104
+2924:00FE  B9 FFFF				mov	cx,0FFFFh
+
+2924:0101			locloop_4:					;  xref 2924:0101
+2924:0101  E2 FE				loop	locloop_4		; Loop if cx > 0
+
+2924:0103  4A					dec	dx
+2924:0104  75 F8				jnz	loc_3			; Jump if not zero
+2924:0106			loc_5:						;  xref 2924:00F9
+2924:0106  E8 03EE				call	sub_7			; (04F7)
+2924:0109  E8 1050				call	sub_39			; (115C)
+2924:010C  B9 0003				mov	cx,3
+2924:010F			loc_6:						;  xref 2924:0117
+2924:010F  51					push	cx
+2924:0110  E8 0B57				call	sub_28			; (0C6A)
+2924:0113  73 07				jnc	loc_7			; Jump if carry=0
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 4
+
+2924:0115  59					pop	cx
+2924:0116  49					dec	cx
+2924:0117  75 F6				jnz	loc_6			; Jump if not zero
+2924:0119  EB 1B				jmp	short loc_8		; (0136)
+2924:011B  90					db	90h
+2924:011C			loc_7:						;  xref 2924:0113
+2924:011C  59					pop	cx
+2924:011D  E8 019E				call	sub_1			; (02BE)
+2924:0120  E8 01DC				call	sub_2			; (02FF)
+2924:0123  E8 0C39				call	sub_29			; (0D5F)
+2924:0126  B8 0020				mov	ax,20h
+2924:0129  33 C9				xor	cx,cx			; Zero register
+2924:012B  26: 8A 0E 0183			mov	cl,byte ptr es:[183h]	; (2924:0183=0)
+2924:0130  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:0132  26: A3 0188				mov	word ptr es:[188h],ax	; (2924:0188=0FE46h)
+2924:0136			loc_8:						;  xref 2924:0119
+2924:0136  C7 06 006C 0000			mov	word ptr ds:timer_low,0	; (0040:006C=8A48h)
+2924:013C  A1 0072				mov	ax,ds:warm_boot_flag	; (0040:0072=0)
+2924:013F  3D 1234				cmp	ax,1234h
+2924:0142  75 06				jne	loc_9			; Jump if not equal
+2924:0144  C7 06 006C 019A			mov	word ptr ds:timer_low,19Ah	; (0040:006C=8A48h)
+2924:014A			loc_9:						;  xref 2924:0142
+2924:014A  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:014C  24 FE				and	al,0FEh
+2924:014E  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:0150			loc_10:						;  xref 2924:0170
+2924:0150  A1 006C				mov	ax,ds:timer_low		; (0040:006C=8A48h)
+2924:0153  3D 01BE				cmp	ax,1BEh
+2924:0156  72 03				jb	loc_11			; Jump if below
+2924:0158  EB 75				jmp	short loc_18		; (01CF)
+2924:015A  90					db	90h
+2924:015B			loc_11:						;  xref 2924:0156
+2924:015B  A0 0075				mov	al,ds:hdsk_count	; (0040:0075=2)
+2924:015E  3C 00				cmp	al,0
+2924:0160  75 06				jne	loc_12			; Jump if not equal
+2924:0162  BA 0080				mov	dx,80h
+2924:0165  EB 04				jmp	short loc_13		; (016B)
+2924:0167  90					db	90h
+2924:0168			loc_12:						;  xref 2924:0160
+2924:0168  BA 0081				mov	dx,81h
+2924:016B			loc_13:						;  xref 2924:0165
+2924:016B  B8 1000				mov	ax,1000h
+2924:016E  CD 13				int	13h			; Disk  dl=drive 1  ah=func 10h
+										;  get drive ready status in al
+2924:0170  72 DE				jc	loc_10			; Jump if carry Set
+2924:0172  A0 0075				mov	al,ds:hdsk_count	; (0040:0075=2)
+2924:0175  3C 00				cmp	al,0
+2924:0177  75 06				jne	loc_14			; Jump if not equal
+2924:0179  BA 0080				mov	dx,80h
+2924:017C  EB 04				jmp	short loc_15		; (0182)
+2924:017E  90					db	90h
+2924:017F			loc_14:						;  xref 2924:0177
+2924:017F  BA 0081				mov	dx,81h
+2924:0182			loc_15:						;  xref 2924:017C
+2924:0182  B8 1100				mov	ax,1100h
+2924:0185  CD 13				int	13h			; Disk  dl=drive 1  ah=func 11h
+										;  recalibrate drive
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 5
+
+2924:0187  72 46				jc	loc_18			; Jump if carry Set
+2924:0189  FE 06 0075				inc	byte ptr ds:hdsk_count	; (0040:0075=2)
+2924:018D  EB 59				jmp	short loc_20		; (01E8)
+2924:018F  90					db	90h
+2924:0190			loc_16:						;  xref 2924:01A0
+2924:0190  BA 0081				mov	dx,81h
+2924:0193  B8 1100				mov	ax,1100h
+2924:0196  CD 13				int	13h			; Disk  dl=drive 1  ah=func 11h
+										;  recalibrate drive
+2924:0198  73 0B				jnc	loc_17			; Jump if carry=0
+2924:019A  A1 006C				mov	ax,ds:timer_low		; (0040:006C=8A49h)
+2924:019D  3D 01BE				cmp	ax,1BEh
+2924:01A0  72 EE				jb	loc_16			; Jump if below
+2924:01A2  EB 44				jmp	short loc_20		; (01E8)
+							                        ;* No entry point to code
+2924:01A4  90					nop
+2924:01A5			loc_17:						;  xref 2924:0198
+2924:01A5  B0 20				mov	al,20h			; ' '
+2924:01A7  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:01AA  E8 0FAF				call	sub_39			; (115C)
+2924:01AD  E8 0ABA				call	sub_28			; (0C6A)
+2924:01B0  72 36				jc	loc_20			; Jump if carry Set
+2924:01B2  E8 0109				call	sub_1			; (02BE)
+2924:01B5  E8 0147				call	sub_2			; (02FF)
+2924:01B8  B8 0020				mov	ax,20h
+2924:01BB  33 C9				xor	cx,cx			; Zero register
+2924:01BD  26: 8A 0E 0183			mov	cl,byte ptr es:[183h]	; (2924:0183=0)
+2924:01C2  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:01C4  26: A3 018A				mov	word ptr es:[18Ah],ax	; (2924:018A=7506h)
+2924:01C8  FE 06 0075				inc	byte ptr ds:hdsk_count	; (0040:0075=2)
+2924:01CC  EB 1A				jmp	short loc_20		; (01E8)
+2924:01CE  90					db	90h
+2924:01CF			loc_18:						;  xref 2924:0158, 0187
+2924:01CF  BD 000F				mov	bp,0Fh
+2924:01D2 ˙BE 0000				mov	si,0			; (2924:0000=55h)
+2924:01D5  B9 0006				mov	cx,6
+2924:01D8  90					nop
+2924:01D9  B7 00				mov	bh,0
+
+2924:01DB			locloop_19:					;  xref 2924:01E5
+2924:01DB  2E: 8A 84 01F1			mov	al,cs:data_68[si]	; (2924:01F1=31h)
+2924:01E0  B4 0E				mov	ah,0Eh
+2924:01E2  CD 10				int	10h			; Video display   ah=functn 0Eh
+										;  write char al, teletype mode
+2924:01E4  46					inc	si
+2924:01E5  E2 F4				loop	locloop_19		; Loop if cx > 0
+
+2924:01E7  F9					stc				; Set carry flag
+2924:01E8			loc_20:						;  xref 2924:018D, 01A2, 01B0, 01CC
+2924:01E8  FA					cli				; Disable interrupts
+2924:01E9  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:01EB  0C 01				or	al,1
+2924:01ED  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:01EF  FB					sti				; Enable interrupts
+2924:01F0  CB					retf				; Return far
+2924:01F1  31			data_68		db	31h			; Data table (indexed access)
+										;  xref 2924:01DB
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 6
+
+2924:01F2  37 30 31 0D 0A 33			db	 37h, 30h, 31h, 0Dh, 0Ah, 33h
+2924:01F8  D2 8E DA 8E C2 BB			db	0D2h, 8Eh,0DAh, 8Eh,0C2h,0BBh
+2924:01FE  00 7C FA C7 06 78			db	 00h, 7Ch,0FAh,0C7h, 06h, 78h
+2924:0204  00 87 02 8C 0E 7A			db	 00h, 87h, 02h, 8Ch, 0Eh, 7Ah
+2924:020A  00 C7 06 04 01 90			db	 00h,0C7h, 06h, 04h, 01h, 90h
+2924:0210  01 89 16 06 01 FB			db	 01h, 89h, 16h, 06h, 01h,0FBh
+2924:0216  BA 38 03 B0 04 EE			db	0BAh, 38h, 03h,0B0h, 04h,0EEh
+2924:021C  BA 80 00 B8 00 00			db	0BAh, 80h, 00h,0B8h, 00h, 00h
+2924:0222  CD 13 B9 03 00			db	0CDh, 13h,0B9h, 03h, 00h
+
+2924:0227			locloop_21:					;  xref 2924:0247
+2924:0227  51					push	cx
+2924:0228  BA 0000				mov	dx,0
+2924:022B  B8 0000				mov	ax,0
+2924:022E  CD 13				int	13h			; Disk  dl=drive a  ah=func 00h
+										;  reset disk, al=return status
+2924:0230  72 08				jc	loc_22			; Jump if carry Set
+2924:0232  B8 0201				mov	ax,201h
+2924:0235  B9 0001				mov	cx,1
+2924:0238  CD 13				int	13h			; Disk  dl=drive a  ah=func 02h
+										;  read sectors to memory es:bx
+										;   al=#,ch=cyl,cl=sectr,dh=head
+2924:023A			loc_22:						;  xref 2924:0230
+2924:023A  59					pop	cx
+2924:023B  72 05				jc	loc_24			; Jump if carry Set
+2924:023D			loc_23:						;  xref 2924:0281
+2924:023D  EA 0000:7C00		;*		jmp	far ptr loc_1		;*(0000:7C00)
+2924:023D  EA					db	0EAh
+2924:023E  7C00 0000				dw	7C00h, 0
+2924:0242			loc_24:						;  xref 2924:023B
+2924:0242  80 FC 80				cmp	ah,80h
+2924:0245  74 02				je	loc_25			; Jump if equal
+2924:0247  E2 DE				loop	locloop_21		; Loop if cx > 0
+
+2924:0249			loc_25:						;  xref 2924:0245
+2924:0249  B8 0000				mov	ax,0
+2924:024C  BA 0000				mov	dx,0
+2924:024F  CD 13				int	13h			; Disk  dl=drive a  ah=func 00h
+										;  reset disk, al=return status
+2924:0251  B9 0003				mov	cx,3
+
+2924:0254			locloop_26:					;  xref 2924:0283
+2924:0254  51					push	cx
+2924:0255  BA 0338				mov	dx,338h
+2924:0258  B0 04				mov	al,4
+2924:025A  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:025B  BA 0080				mov	dx,80h
+2924:025E  B8 0000				mov	ax,0
+2924:0261  CD 13				int	13h			; Disk  dl=drive 0  ah=func 00h
+										;  reset disk, al=return status
+2924:0263  72 13				jc	loc_27			; Jump if carry Set
+2924:0265  B8 0201				mov	ax,201h
+2924:0268  BB 0000				mov	bx,0
+2924:026B  8E C3				mov	es,bx
+2924:026D ˙BB 7C00				mov	bx,data_35e		; (0000:7C00=6Eh)
+2924:0270  BA 0080				mov	dx,80h
+2924:0273  B9 0001				mov	cx,1
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 7
+
+2924:0276  CD 13				int	13h			; Disk  dl=drive 0  ah=func 02h
+										;  read sectors to memory es:bx
+										;   al=#,ch=cyl,cl=sectr,dh=head
+2924:0278			loc_27:						;  xref 2924:0263
+2924:0278  59					pop	cx
+2924:0279  72 08				jc	loc_28			; Jump if carry Set
+2924:027B  A1 7DFE				mov	ax,ds:data_102e		; (2924:7DFE=0)
+2924:027E  3D AA55				cmp	ax,0AA55h
+2924:0281  74 BA				je	loc_23			; Jump if equal
+2924:0283			loc_28:						;  xref 2924:0279
+2924:0283  E2 CF				loop	locloop_26		; Loop if cx > 0
+
+2924:0285  CD 18				int	18h			; ROM basic
+2924:0287  CF					iret				; Interrupt return
+							                        ;* No entry point to code
+2924:0288  02 25				add	ah,[di]
+2924:028A  02 08				add	cl,[bx+si]
+2924:028C  2A FF				sub	bh,bh
+2924:028E  50					push	ax
+2924:028F  F6 19				neg	byte ptr [bx+di]
+2924:0291  04 9B				add	al,9Bh
+2924:0293  06					push	es
+2924:0294  C8 06				db	0C8h, 06h
+2924:0296  0719			data_71		dw	offset loc_73		;  xref 2924:05FF
+2924:0298  0726			data_72		dw	offset loc_74		;  xref 2924:05FF
+2924:029A  0733			data_73		dw	offset loc_75		;  xref 2924:05FF
+2924:029C  04E7			data_74		dw	offset loc_47		;  xref 2924:05FF
+2924:029E  04E7			data_75		dw	offset loc_47		;  xref 2924:05FF
+2924:02A0  0709			data_76		dw	offset loc_72		;  xref 2924:05FF
+2924:02A2  0766			data_77		dw	offset loc_78		;  xref 2924:05FF
+2924:02A4  07DA			data_78		dw	offset loc_ret_83	;  xref 2924:05FF
+2924:02A6  04E7			data_79		dw	offset loc_47		;  xref 2924:05FF
+2924:02A8  04E7			data_80		dw	offset loc_47		;  xref 2924:05FF
+2924:02AA  075B			data_81		dw	offset loc_77		;  xref 2924:05FF
+2924:02AC  04E7			data_82		dw	offset loc_47		;  xref 2924:05FF
+2924:02AE  04E7			data_83		dw	offset loc_47		;  xref 2924:05FF
+2924:02B0  04E7			data_84		dw	offset loc_47		;  xref 2924:05FF
+2924:02B2  06D1			data_85		dw	offset loc_70		;  xref 2924:05FF
+2924:02B4  06ED			data_86		dw	offset loc_71		;  xref 2924:05FF
+2924:02B6  04E7			data_87		dw	offset loc_47		;  xref 2924:05FF
+2924:02B8  04E7			data_88		dw	offset loc_47		;  xref 2924:05FF
+2924:02BA  04E7			data_89		dw	offset loc_47		;  xref 2924:05FF
+2924:02BC  04E7			data_90		dw	offset loc_47		;  xref 2924:05FF
+
+				ncl501		endp
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:011D, 01B2, 06AE
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:02BE			sub_1		proc	near
+2924:02BE  06					push	es
+2924:02BF  51					push	cx
+2924:02C0  33 C0				xor	ax,ax			; Zero register
+2924:02C2  8E C0				mov	es,ax
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 8
+
+2924:02C4  B0 20				mov	al,20h			; ' '
+2924:02C6  26: A2 0183				mov	es:data_16e,al		; (0000:0183=0)
+2924:02CA  26: 8A 26 0186			mov	ah,es:data_18e		; (0000:0186=0)
+2924:02CF  26: A0 0187				mov	al,es:data_19e		; (0000:0187=0)
+2924:02D3  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:02D5  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:02D7  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:02D9  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:02DB  50					push	ax
+2924:02DC  26: A0 0185				mov	al,es:data_17e		; (0000:0185=0)
+2924:02E0  24 0F				and	al,0Fh
+2924:02E2  D0 E0				shl	al,1			; Shift w/zeros fill
+2924:02E4  D0 E0				shl	al,1			; Shift w/zeros fill
+2924:02E6  D0 E0				shl	al,1			; Shift w/zeros fill
+2924:02E8  D0 E0				shl	al,1			; Shift w/zeros fill
+2924:02EA  8A C8				mov	cl,al
+2924:02EC  58					pop	ax
+2924:02ED  0A E1				or	ah,cl
+2924:02EF  B1 06				mov	cl,6
+2924:02F1  D3 E8				shr	ax,cl			; Shift w/zeros fill
+2924:02F3  26: 88 26 0181			mov	es:data_14e,ah		; (0000:0181=0)
+2924:02F8  26: A2 0182				mov	es:data_15e,al		; (0000:0182=0)
+2924:02FC  59					pop	cx
+2924:02FD  07					pop	es
+2924:02FE  C3					retn
+				sub_1		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0120, 01B5, 06B1
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:02FF			sub_2		proc	near
+2924:02FF  06					push	es
+2924:0300  33 C0				xor	ax,ax			; Zero register
+2924:0302  8E C0				mov	es,ax
+2924:0304  A0 0043				mov	al,ds:dsk_status_2	; (0040:0043=0)
+2924:0307  24 E0				and	al,0E0h
+2924:0309  74 03				jz	loc_29			; Jump if zero
+2924:030B  EB 51				jmp	short loc_30		; (035E)
+2924:030D  90					db	90h
+2924:030E			loc_29:						;  xref 2924:0309
+2924:030E  26: A0 0181				mov	al,es:data_14e		; (0000:0181=0)
+2924:0312  26: A2 0190				mov	es:data_22e,al		; (0000:0190=0)
+2924:0316  26: A0 0182				mov	al,es:data_15e		; (0000:0182=0)
+2924:031A  26: A2 0191				mov	es:data_23e,al		; (0000:0191=0)
+2924:031E  26: A0 0183				mov	al,es:data_16e		; (0000:0183=0)
+2924:0322  26: A2 0192				mov	es:data_24e,al		; (0000:0192=0)
+2924:0326  32 C0				xor	al,al			; Zero register
+2924:0328  26: A2 0193				mov	es:data_25e,al		; (0000:0193=0)
+2924:032C  26: A2 0194				mov	es:data_26e,al		; (0000:0194=0)
+2924:0330  26: A2 0195				mov	es:data_27e,al		; (0000:0195=0)
+2924:0334  26: A2 0196				mov	es:data_28e,al		; (0000:0196=0)
+2924:0338  B0 0B				mov	al,0Bh
+2924:033A  26: A2 0197				mov	es:data_29e,al		; (0000:0197=0)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 9
+
+2924:033E  B0 07				mov	al,7
+2924:0340  26: A2 0198				mov	es:data_30e,al		; (0000:0198=60h)
+2924:0344  B0 0C				mov	al,0Ch
+2924:0346  26: A2 0199				mov	es:data_31e,al		; (0000:0199=10h)
+2924:034A  B0 B4				mov	al,0B4h
+2924:034C  26: A2 019A				mov	es:data_32e,al		; (0000:019A=0)
+2924:0350  B0 28				mov	al,28h			; '('
+2924:0352  26: A2 019B				mov	es:data_33e,al		; (0000:019B=0F0h)
+2924:0356  B0 20				mov	al,20h			; ' '
+2924:0358  26: A2 019E				mov	es:data_34e,al		; (0000:019E=41h)
+2924:035C  07					pop	es
+2924:035D  C3					retn
+2924:035E			loc_30:						;  xref 2924:030B
+2924:035E  26: A0 0181				mov	al,byte ptr es:[181h]	; (2924:0181=0)
+2924:0362  26: A2 01A0				mov	byte ptr es:[1A0h],al	; (2924:01A0=72h)
+2924:0366  26: A0 0182				mov	al,byte ptr es:[182h]	; (2924:0182=0B8h)
+2924:036A  26: A2 01A1				mov	byte ptr es:[1A1h],al	; (2924:01A1=0EEh)
+2924:036E  26: A0 0183				mov	al,byte ptr es:[183h]	; (2924:0183=0)
+2924:0372  26: A2 01A2				mov	byte ptr es:[1A2h],al	; (2924:01A2=0EBh)
+2924:0376  32 C0				xor	al,al			; Zero register
+2924:0378  26: A2 01A3				mov	byte ptr es:[1A3h],al	; (2924:01A3=44h)
+2924:037C  26: A2 01A4				mov	byte ptr es:[1A4h],al	; (2924:01A4=90h)
+2924:0380  26: A2 01A5				mov	byte ptr es:[1A5h],al	; (2924:01A5=0B0h)
+2924:0384  26: A2 01A6				mov	byte ptr es:[1A6h],al	; (2924:01A6=20h)
+2924:0388  B0 0B				mov	al,0Bh
+2924:038A  26: A2 01A7				mov	byte ptr es:[1A7h],al	; (2924:01A7=0A2h)
+2924:038E  B0 07				mov	al,7
+2924:0390  26: A2 01A8				mov	byte ptr es:[1A8h],al	; (2924:01A8=43h)
+2924:0394  B0 0C				mov	al,0Ch
+2924:0396  26: A2 01A9				mov	byte ptr es:[1A9h],al	; (2924:01A9=0)
+2924:039A  B0 B4				mov	al,0B4h
+2924:039C  26: A2 01AA				mov	byte ptr es:[1AAh],al	; (2924:01AA=0E8h)
+2924:03A0  B0 28				mov	al,28h			; '('
+2924:03A2  26: A2 01AB				mov	byte ptr es:[1ABh],al	; (2924:01AB=0AFh)
+2924:03A6  B0 20				mov	al,20h			; ' '
+2924:03A8  26: A2 01AE				mov	byte ptr es:[1AEh],al	; (2924:01AE=0BAh)
+2924:03AC  07					pop	es
+2924:03AD  C3					retn
+				sub_2		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0405, 0465, 0498, 04D0
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:03AE			sub_3		proc	near
+2924:03AE  B4 01				mov	ah,1
+2924:03B0  CD 21				int	21h			; DOS Services  ah=function 01h
+										;  get keybd char al, with echo
+2924:03B2  C3					retn
+				sub_3		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 10
+
+				;
+				;         Called from:   2924:045C, 0462, 0474, 0483, 0495, 04A6, 04C7
+				;                             04CD, 04DE
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:03B3			sub_4		proc	near
+2924:03B3  53					push	bx
+2924:03B4  B7 00				mov	bh,0
+2924:03B6			loc_31:						;  xref 2924:03C2
+2924:03B6 ˙2E: 8A 04				mov	al,cs:[si]
+2924:03B9  3C 24				cmp	al,24h			; '$'
+2924:03BB  74 07				je	loc_32			; Jump if equal
+2924:03BD  B4 0E				mov	ah,0Eh
+2924:03BF  CD 10				int	10h			; Video display   ah=functn 0Eh
+										;  write char al, teletype mode
+2924:03C1  46					inc	si
+2924:03C2  EB F2				jmp	short loc_31		; (03B6)
+2924:03C4			loc_32:						;  xref 2924:03BB
+2924:03C4  5B					pop	bx
+2924:03C5  C3					retn
+				sub_4		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:047A, 0489
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:03C6			sub_5		proc	near
+2924:03C6  33 DB				xor	bx,bx			; Zero register
+2924:03C8  33 C9				xor	cx,cx			; Zero register
+2924:03CA  80 3E 0047 00			cmp	byte ptr ds:dsk_status_6,0	; (0040:0047=0)
+2924:03CF  74 28				je	loc_35			; Jump if equal
+2924:03D1			loc_33:						;  xref 2924:03F5
+2924:03D1 ˙8A 87 0042				mov	al,ds:dsk_status_1[bx]	; (0040:0042=0)
+2924:03D5  3C 30				cmp	al,30h			; '0'
+2924:03D7  72 20				jb	loc_35			; Jump if below
+2924:03D9  3C 39				cmp	al,39h			; '9'
+2924:03DB  77 1C				ja	loc_35			; Jump if above
+2924:03DD  2C 30				sub	al,30h			; '0'
+2924:03DF  98					cbw				; Convrt byte to word
+2924:03E0  03 C8				add	cx,ax
+2924:03E2  FE 0E 0047				dec	byte ptr ds:dsk_status_6	; (0040:0047=0)
+2924:03E6  80 3E 0047 00			cmp	byte ptr ds:dsk_status_6,0	; (0040:0047=0)
+2924:03EB  74 0A				je	loc_34			; Jump if equal
+2924:03ED  B8 000A				mov	ax,0Ah
+2924:03F0  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:03F2  8B C8				mov	cx,ax
+2924:03F4  43					inc	bx
+2924:03F5  EB DA				jmp	short loc_33		; (03D1)
+2924:03F7			loc_34:						;  xref 2924:03EB
+2924:03F7  F8					clc				; Clear carry flag
+2924:03F8  C3					retn
+2924:03F9			loc_35:						;  xref 2924:03CF, 03D7, 03DB
+2924:03F9  F9					stc				; Set carry flag
+2924:03FA  C3					retn
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 11
+
+				sub_5		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0477, 0486
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:03FB			sub_6		proc	near
+2924:03FB  BB 0042				mov	bx,42h
+2924:03FE  B9 0000				mov	cx,0
+2924:0401  88 0E 0047				mov	ds:dsk_status_6,cl	; (0040:0047=0)
+2924:0405			loc_36:						;  xref 2924:0426, 043C
+2924:0405 ˙E8 FFA6				call	sub_3			; (03AE)
+2924:0408  3C 0D				cmp	al,0Dh
+2924:040A  74 32				je	loc_39			; Jump if equal
+2924:040C  3C 08				cmp	al,8
+2924:040E  75 18				jne	loc_37			; Jump if not equal
+2924:0410  53					push	bx
+2924:0411  51					push	cx
+2924:0412  B0 20				mov	al,20h			; ' '
+2924:0414  B4 0A				mov	ah,0Ah
+2924:0416  B9 0001				mov	cx,1
+2924:0419  BB 0000				mov	bx,0
+2924:041C  CD 10				int	10h			; Video display   ah=functn 0Ah
+										;  set char al at present curs
+										;   cx=# of chars to replicate
+2924:041E  59					pop	cx
+2924:041F  5B					pop	bx
+2924:0420  FE 0E 0047				dec	byte ptr ds:dsk_status_6	; (0040:0047=0)
+2924:0424  49					dec	cx
+2924:0425  4B					dec	bx
+2924:0426  EB DD				jmp	short loc_36		; (0405)
+2924:0428			loc_37:						;  xref 2924:040E
+2924:0428  83 F9 04				cmp	cx,4
+2924:042B  7E 03				jle	loc_38			; Jump if < or =
+2924:042D  EB 18				jmp	short loc_40		; (0447)
+2924:042F  90					db	90h
+2924:0430			loc_38:						;  xref 2924:042B
+2924:0430  88 07				mov	[bx],al
+2924:0432  A0 0047				mov	al,ds:dsk_status_6	; (0040:0047=0)
+2924:0435  FE C0				inc	al
+2924:0437  A2 0047				mov	ds:dsk_status_6,al	; (0040:0047=0)
+2924:043A  43					inc	bx
+2924:043B  41					inc	cx
+2924:043C  EB C7				jmp	short loc_36		; (0405)
+2924:043E			loc_39:						;  xref 2924:040A
+2924:043E  80 3E 0047 00			cmp	byte ptr ds:dsk_status_6,0	; (0040:0047=0)
+2924:0443  74 02				je	loc_40			; Jump if equal
+2924:0445  F8					clc				; Clear carry flag
+2924:0446  C3					retn
+2924:0447			loc_40:						;  xref 2924:042D, 0443
+2924:0447  32 C0				xor	al,al			; Zero register
+2924:0449  A2 0047				mov	ds:dsk_status_6,al	; (0040:0047=0)
+2924:044C  F9					stc				; Set carry flag
+2924:044D  C3					retn
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 12
+
+				sub_6		endp
+
+							                        ;* No entry point to code
+2924:044E  1E					push	ds
+2924:044F  06					push	es
+2924:0450  B8 0040				mov	ax,40h
+2924:0453  8E D8				mov	ds,ax
+2924:0455  33 C0				xor	ax,ax			; Zero register
+2924:0457  8E C0				mov	es,ax
+2924:0459 ˙BE 11B6				mov	si,offset data_91	; (2924:11B6='')
+2924:045C  E8 FF54				call	sub_4			; (03B3)
+2924:045F ˙BE 11F1				mov	si,offset data_92	; (2924:11F1='')
+2924:0462  E8 FF4E				call	sub_4			; (03B3)
+2924:0465  E8 FF46				call	sub_3			; (03AE)
+2924:0468  24 DF				and	al,0DFh
+2924:046A  3C 59				cmp	al,59h			; 'Y'
+2924:046C  74 03				je	loc_41			; Jump if equal
+2924:046E  EB 6B				jmp	short loc_46		; (04DB)
+							                        ;* No entry point to code
+2924:0470  90					nop
+2924:0471			loc_41:						;  xref 2924:046C, 047D, 04A1, 04D9
+2924:0471 ˙BE 1245				mov	si,offset data_93	; (2924:1245='')
+2924:0474  E8 FF3C				call	sub_4			; (03B3)
+2924:0477  E8 FF81				call	sub_6			; (03FB)
+2924:047A  E8 FF49				call	sub_5			; (03C6)
+2924:047D  72 F2				jc	loc_41			; Jump if carry Set
+2924:047F  51					push	cx
+2924:0480			loc_42:						;  xref 2924:048C
+2924:0480 ˙BE 1272				mov	si,offset data_94	; (2924:1272='')
+2924:0483  E8 FF2D				call	sub_4			; (03B3)
+2924:0486  E8 FF72				call	sub_6			; (03FB)
+2924:0489  E8 FF3A				call	sub_5			; (03C6)
+2924:048C  72 F2				jc	loc_42			; Jump if carry Set
+2924:048E  88 0E 0046				mov	ds:dsk_status_5,cl	; (0040:0046=0)
+2924:0492 ˙BE 128A				mov	si,offset data_95	; (2924:128A='')
+2924:0495  E8 FF1B				call	sub_4			; (03B3)
+2924:0498  E8 FF13				call	sub_3			; (03AE)
+2924:049B  24 DF				and	al,0DFh
+2924:049D  3C 59				cmp	al,59h			; 'Y'
+2924:049F  74 02				je	loc_43			; Jump if equal
+2924:04A1  EB CE				jmp	short loc_41		; (0471)
+2924:04A3			loc_43:						;  xref 2924:049F
+2924:04A3 ˙BE 12D1				mov	si,offset data_96	; (2924:12D1='')
+2924:04A6  E8 FF0A				call	sub_4			; (03B3)
+2924:04A9  58					pop	ax
+2924:04AA  3C 00				cmp	al,0
+2924:04AC  74 06				je	loc_44			; Jump if equal
+2924:04AE  BA 0081				mov	dx,81h
+2924:04B1  EB 04				jmp	short loc_45		; (04B7)
+2924:04B3  90					db	90h
+2924:04B4			loc_44:						;  xref 2924:04AC
+2924:04B4  BA 0080				mov	dx,80h
+2924:04B7			loc_45:						;  xref 2924:04B1
+2924:04B7  B4 07				mov	ah,7
+2924:04B9  A0 0046				mov	al,ds:dsk_status_5	; (0040:0046=0)
+2924:04BC  BB 0000				mov	bx,0
+2924:04BF  B9 0001				mov	cx,1
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 13
+
+2924:04C2  CD 13				int	13h			; Disk  dl=drive 0  ah=func 07h
+										;  format hdsk, start at cyl cx
+										;   al=interleave, dh=head
+2924:04C4 ˙BE 12E5				mov	si,offset data_97	; (2924:12E5='')
+2924:04C7  E8 FEE9				call	sub_4			; (03B3)
+2924:04CA ˙BE 12FB				mov	si,offset data_98	; (2924:12FB='')
+2924:04CD  E8 FEE3				call	sub_4			; (03B3)
+2924:04D0  E8 FEDB				call	sub_3			; (03AE)
+2924:04D3  24 DF				and	al,0DFh
+2924:04D5  3C 59				cmp	al,59h			; 'Y'
+2924:04D7  75 02				jne	loc_46			; Jump if not equal
+2924:04D9  EB 96				jmp	short loc_41		; (0471)
+2924:04DB			loc_46:						;  xref 2924:046E, 04D7
+2924:04DB ˙BE 132E				mov	si,offset data_99	; (2924:132E='')
+2924:04DE  E8 FED2				call	sub_4			; (03B3)
+2924:04E1  07					pop	es
+2924:04E2  1F					pop	ds
+2924:04E3  B4 4C				mov	ah,4Ch
+2924:04E5  CD 21				int	21h			; DOS Services  ah=function 4Ch
+										;  terminate with al=return code
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:04E7			loc_47:						;  xref 2924:029C, 029E, 02A6, 02A8
+										;            02AC, 02AE, 02B0, 02B6
+										;            02B8, 02BA, 02BC, 05FF
+2924:04E7  50					push	ax
+2924:04E8  B8 0040				mov	ax,40h
+2924:04EB  8E D8				mov	ds,ax
+2924:04ED  32 C0				xor	al,al			; Zero register
+2924:04EF  A2 0048				mov	ds:dsk_status_7,al	; (0040:0048=0)
+2924:04F2  A2 0076				mov	ds:hdsk_head_ctrl,al	; (0040:0076=0)
+2924:04F5  58					pop	ax
+2924:04F6  C3					retn
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0106, 069B
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:04F7			sub_7		proc	near
+2924:04F7  52					push	dx
+2924:04F8  51					push	cx
+2924:04F9  BA 0331				mov	dx,331h
+2924:04FC  E8 0B9C				call	sub_36			; (109B)
+2924:04FF  B0 80				mov	al,80h
+2924:0501  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:0502  B9 0400				mov	cx,400h
+
+2924:0505			locloop_48:					;  xref 2924:0505
+2924:0505  E2 FE				loop	locloop_48		; Loop if cx > 0
+
+2924:0507  32 C0				xor	al,al			; Zero register
+2924:0509  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:050A  BA 0008				mov	dx,8
+2924:050D			loc_49:						;  xref 2924:0513
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 14
+
+2924:050D  B9 FFFF				mov	cx,0FFFFh
+
+2924:0510			locloop_50:					;  xref 2924:0510
+2924:0510  E2 FE				loop	locloop_50		; Loop if cx > 0
+
+2924:0512  4A					dec	dx
+2924:0513  75 F8				jnz	loc_49			; Jump if not zero
+2924:0515  59					pop	cx
+2924:0516  5A					pop	dx
+2924:0517  C3					retn
+				sub_7		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:057B
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0518			sub_8		proc	near
+2924:0518  FA					cli				; Disable interrupts
+2924:0519  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:051B  0C 20				or	al,20h			; ' '
+2924:051D  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:051F  FB					sti				; Enable interrupts
+2924:0520  52					push	dx
+2924:0521  BA 0331				mov	dx,331h
+2924:0524  E8 0B74				call	sub_36			; (109B)
+2924:0527  32 C0				xor	al,al			; Zero register
+2924:0529  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:052A  42					inc	dx
+2924:052B  EE					out	dx,al			; port 332h ??I/O Non-standard
+2924:052C  42					inc	dx
+2924:052D  EE					out	dx,al			; port 333h ??I/O Non-standard
+2924:052E  83 C2 04				add	dx,4
+2924:0531  EC					in	al,dx			; port 337h ??I/O Non-standard
+2924:0532  5A					pop	dx
+2924:0533  C3					retn
+				sub_8		endp
+
+							                        ;* No entry point to code
+2924:0534  80 FA 80				cmp	dl,80h
+2924:0537  73 05				jae	loc_52			; Jump if above or =
+2924:0539  CD 40				int	40h			; Floppy dl=drive # ah=func 00h
+										;  reset disk, al=return status
+
+2924:053B			loc_ret_51:					;  xref 2924:054A
+2924:053B  CA 0002				retf	2			; Return far
+2924:053E			loc_52:						;  xref 2924:0537
+2924:053E  FB					sti				; Enable interrupts
+2924:053F  0A E4				or	ah,ah			; Zero ?
+2924:0541  75 09				jnz	loc_53			; Jump if not zero
+2924:0543  CD 40				int	40h			; Floppy dl=drive # ah=func 00h
+										;  reset disk, al=return status
+2924:0545  B4 00				mov	ah,0
+2924:0547  80 FA 81				cmp	dl,81h
+2924:054A  77 EF				ja	loc_ret_51		; Jump if above
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 15
+
+2924:054C			loc_53:						;  xref 2924:0541
+2924:054C  1E					push	ds
+2924:054D  50					push	ax
+2924:054E  33 C0				xor	ax,ax			; Zero register
+2924:0550  8E D8				mov	ds,ax
+2924:0552  A0 0178				mov	al,ds:data_12e		; (0000:0178=60h)
+2924:0555  3C 00				cmp	al,0
+2924:0557  74 0C				je	loc_54			; Jump if equal
+2924:0559  80 FA 81				cmp	dl,81h
+2924:055C  74 07				je	loc_54			; Jump if equal
+2924:055E  58					pop	ax
+2924:055F  1F					pop	ds
+2924:0560  CD 5D				int	5Dh			; ??INT Non-standard interrupt
+2924:0562  CA 0002				retf	2			; Return far
+2924:0565			loc_54:						;  xref 2924:0557, 055C
+2924:0565  58					pop	ax
+2924:0566  1F					pop	ds
+2924:0567  80 FC 08				cmp	ah,8
+2924:056A  75 03				jne	loc_55			; Jump if not equal
+2924:056C  E9 01F7				jmp	loc_78			; (0766)
+2924:056F			loc_55:						;  xref 2924:056A
+2924:056F  53					push	bx
+2924:0570  51					push	cx
+2924:0571  52					push	dx
+2924:0572  1E					push	ds
+2924:0573  06					push	es
+2924:0574  56					push	si
+2924:0575  57					push	di
+2924:0576  55					push	bp
+2924:0577  E8 002E				call	sub_9			; (05A8)
+2924:057A  50					push	ax
+2924:057B  E8 FF9A				call	sub_8			; (0518)
+2924:057E  B8 0040				mov	ax,40h
+2924:0581  8E D8				mov	ds,ax
+2924:0583  58					pop	ax
+2924:0584  8A 26 0076				mov	ah,ds:hdsk_head_ctrl	; (0040:0076=0)
+2924:0588  A0 0048				mov	al,ds:dsk_status_7	; (0040:0048=0)
+2924:058B  3C 00				cmp	al,0
+2924:058D  75 06				jne	loc_56			; Jump if not equal
+2924:058F  33 C0				xor	ax,ax			; Zero register
+2924:0591  F8					clc				; Clear carry flag
+2924:0592  EB 09				jmp	short loc_58		; (059D)
+2924:0594  90					db	90h
+2924:0595			loc_56:						;  xref 2924:058D
+2924:0595  3C F9				cmp	al,0F9h
+2924:0597  75 03				jne	loc_57			; Jump if not equal
+2924:0599  B8 0900				mov	ax,900h
+2924:059C			loc_57:						;  xref 2924:0597
+2924:059C  F9					stc				; Set carry flag
+2924:059D			loc_58:						;  xref 2924:0592
+2924:059D  5D					pop	bp
+2924:059E  5F					pop	di
+2924:059F  5E					pop	si
+2924:05A0  07					pop	es
+2924:05A1  1F					pop	ds
+2924:05A2  5A					pop	dx
+2924:05A3  59					pop	cx
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 16
+
+2924:05A4  5B					pop	bx
+2924:05A5  CA 0002				retf	2			; Return far
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0577
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:05A8			sub_9		proc	near
+2924:05A8  50					push	ax
+2924:05A9  B8 0040				mov	ax,40h
+2924:05AC  8E D8				mov	ds,ax
+2924:05AE  32 C0				xor	al,al			; Zero register
+2924:05B0  A2 0048				mov	ds:dsk_status_7,al	; (0040:0048=0)
+2924:05B3  A2 0076				mov	ds:hdsk_head_ctrl,al	; (0040:0076=0)
+2924:05B6  58					pop	ax
+2924:05B7  80 EA 80				sub	dl,80h
+2924:05BA  80 FA 02				cmp	dl,2
+2924:05BD  72 03				jb	loc_59			; Jump if below
+2924:05BF  EB 43				jmp	short loc_63		; (0604)
+2924:05C1  90					db	90h
+2924:05C2			loc_59:						;  xref 2924:05BD
+2924:05C2  50					push	ax
+2924:05C3  80 FA 00				cmp	dl,0
+2924:05C6  75 08				jne	loc_60			; Jump if not equal
+2924:05C8  B0 00				mov	al,0
+2924:05CA  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:05CD  EB 1C				jmp	short loc_62		; (05EB)
+2924:05CF  90					db	90h
+2924:05D0			loc_60:						;  xref 2924:05C6
+2924:05D0  1E					push	ds
+2924:05D1  33 C0				xor	ax,ax			; Zero register
+2924:05D3  8E D8				mov	ds,ax
+2924:05D5  A0 0178				mov	al,ds:data_12e		; (0000:0178=60h)
+2924:05D8  3C 00				cmp	al,0
+2924:05DA  74 09				je	loc_61			; Jump if equal
+2924:05DC  1F					pop	ds
+2924:05DD  B0 00				mov	al,0
+2924:05DF  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:05E2  EB 07				jmp	short loc_62		; (05EB)
+2924:05E4  90					db	90h
+2924:05E5			loc_61:						;  xref 2924:05DA
+2924:05E5  1F					pop	ds
+2924:05E6  B0 20				mov	al,20h			; ' '
+2924:05E8  A2 0043				mov	ds:data_2e,al		; (0000:0043=0F0h)
+2924:05EB			loc_62:						;  xref 2924:05CD, 05E2
+2924:05EB  58					pop	ax
+2924:05EC  E8 0001				call	sub_10			; (05F0)
+2924:05EF  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:05EC
+
+2924:05F0			sub_10:
+2924:05F0  80 FC 16				cmp	ah,16h
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 17
+
+2924:05F3  73 0F				jae	loc_63			; Jump if above or =
+2924:05F5  50					push	ax
+2924:05F6  86 E0				xchg	ah,al
+2924:05F8  B4 00				mov	ah,0
+2924:05FA  D1 E0				shl	ax,1			; Shift w/zeros fill
+2924:05FC  8B E8				mov	bp,ax
+2924:05FE  58					pop	ax
+2924:05FF  2E: FF A6 0292			jmp	word ptr cs:[292h][bp]	;*(2924:0292=69Bh)   22 entries
+2924:0604			loc_63:						;  xref 2924:05BF, 05F3
+2924:0604  C6 06 0048 01			mov	byte ptr ds:data_7e,1	; (0000:0048=20h)
+2924:0609  B0 00				mov	al,0
+2924:060B  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0709, 0719, 0726, 0750, 075B
+
+2924:060C			sub_11:
+2924:060C  E8 0031				call	sub_13			; (0640)
+2924:060F  A2 0046				mov	ds:data_5e,al		; (0000:0046=0)
+2924:0612  C6 06 0047 00			mov	byte ptr ds:data_6e,0	; (0000:0047=0F0h)
+2924:0617  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0743
+
+2924:0618			sub_12:
+2924:0618  E8 0025				call	sub_13			; (0640)
+2924:061B  A2 0048				mov	ds:data_7e,al		; (0000:0048=20h)
+2924:061E  A0 0045				mov	al,ds:data_4e		; (0000:0045=11h)
+2924:0621  A2 0047				mov	ds:data_6e,al		; (0000:0047=0F0h)
+2924:0624  A0 0044				mov	al,ds:data_3e		; (0000:0044=0)
+2924:0627  A2 0046				mov	ds:data_5e,al		; (0000:0046=0)
+2924:062A  A0 0043				mov	al,ds:data_2e		; (0000:0043=0F0h)
+2924:062D  24 1F				and	al,1Fh
+2924:062F  A2 0045				mov	ds:data_4e,al		; (0000:0045=11h)
+2924:0632  32 C0				xor	al,al			; Zero register
+2924:0634  A2 0044				mov	ds:data_3e,al		; (0000:0044=0)
+2924:0637  A0 0043				mov	al,ds:data_2e		; (0000:0043=0F0h)
+2924:063A  24 E0				and	al,0E0h
+2924:063C  A2 0043				mov	ds:data_2e,al		; (0000:0043=0F0h)
+2924:063F  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:060C, 0618
+
+2924:0640			sub_13:
+2924:0640  06					push	es
+2924:0641  50					push	ax
+2924:0642  52					push	dx
+2924:0643  51					push	cx
+2924:0644  33 C0				xor	ax,ax			; Zero register
+2924:0646  8E C0				mov	es,ax
+2924:0648  8A C1				mov	al,cl
+2924:064A  24 C0				and	al,0C0h
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 18
+
+2924:064C  B1 06				mov	cl,6
+2924:064E  D2 E8				shr	al,cl			; Shift w/zeros fill
+2924:0650  8A E0				mov	ah,al
+2924:0652  8A C5				mov	al,ch
+2924:0654  26: 8B 0E 0188			mov	cx,es:data_20e		; (0000:0188=0)
+2924:0659  52					push	dx
+2924:065A  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:065C  59					pop	cx
+2924:065D  8A CD				mov	cl,ch
+2924:065F  32 ED				xor	ch,ch			; Zero register
+2924:0661  52					push	dx
+2924:0662  50					push	ax
+2924:0663  B8 0020				mov	ax,20h
+2924:0666  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:0668  8B C8				mov	cx,ax
+2924:066A  58					pop	ax
+2924:066B  5A					pop	dx
+2924:066C  03 C1				add	ax,cx
+2924:066E  73 01				jnc	loc_64			; Jump if carry=0
+2924:0670  42					inc	dx
+2924:0671			loc_64:						;  xref 2924:066E
+2924:0671  59					pop	cx
+2924:0672  51					push	cx
+2924:0673  80 E1 3F				and	cl,3Fh			; '?'
+2924:0676  FE C9				dec	cl
+2924:0678  32 ED				xor	ch,ch			; Zero register
+2924:067A  03 C1				add	ax,cx
+2924:067C  73 01				jnc	loc_65			; Jump if carry=0
+2924:067E  42					inc	dx
+2924:067F			loc_65:						;  xref 2924:067C
+2924:067F  80 E2 1F				and	dl,1Fh
+2924:0682  8A 0E 0043				mov	cl,ds:data_2e		; (0000:0043=0F0h)
+2924:0686  80 E1 E0				and	cl,0E0h
+2924:0689  0A D1				or	dl,cl
+2924:068B  88 16 0043				mov	ds:data_2e,dl		; (0000:0043=0F0h)
+2924:068F  88 26 0044				mov	ds:data_3e,ah		; (0000:0044=0)
+2924:0693  A2 0045				mov	ds:data_4e,al		; (0000:0045=11h)
+2924:0696  59					pop	cx
+2924:0697  5A					pop	dx
+2924:0698  58					pop	ax
+2924:0699  07					pop	es
+2924:069A  C3					retn
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:069B			loc_66:						;  xref 2924:05FF
+2924:069B  E8 FE59				call	sub_7			; (04F7)
+2924:069E  B0 00				mov	al,0
+2924:06A0  A2 0043				mov	ds:data_2e,al		; (0000:0043=0F0h)
+2924:06A3  E8 0AB6				call	sub_39			; (115C)
+2924:06A6  E8 05C1				call	sub_28			; (0C6A)
+2924:06A9  73 03				jnc	loc_67			; Jump if carry=0
+2924:06AB  E8 05BC				call	sub_28			; (0C6A)
+2924:06AE			loc_67:						;  xref 2924:06A9
+2924:06AE  E8 FC0D				call	sub_1			; (02BE)
+2924:06B1  E8 FC4B				call	sub_2			; (02FF)
+2924:06B4  A0 0075				mov	al,ds:data_9e		; (0000:0075=0F0h)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 19
+
+2924:06B7  3C 01				cmp	al,1
+2924:06B9  74 0C				je	loc_ret_68		; Jump if equal
+2924:06BB  3C 02				cmp	al,2
+2924:06BD  75 08				jne	loc_ret_68		; Jump if not equal
+2924:06BF  B0 20				mov	al,20h			; ' '
+2924:06C1  A2 0043				mov	ds:data_2e,al		; (0000:0043=0F0h)
+2924:06C4  E8 0A95				call	sub_39			; (115C)
+
+2924:06C7			loc_ret_68:					;  xref 2924:06B9, 06BD
+2924:06C7  C3					retn
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:06C8			loc_69:						;  xref 2924:05FF
+2924:06C8  A0 0074				mov	al,ds:data_8e		; (0000:0074=0A4h)
+2924:06CB  C6 06 0074 00			mov	byte ptr ds:data_8e,0	; (0000:0074=0A4h)
+2924:06D0  C3					retn
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:06D1			loc_70:						;  xref 2924:02B2, 05FF
+2924:06D1  C6 06 0042 00			mov	byte ptr ds:data_1e,0	; (0000:0042=0)
+2924:06D6  C6 06 0044 00			mov	byte ptr ds:data_3e,0	; (0000:0044=0)
+2924:06DB  C6 06 0045 00			mov	byte ptr ds:data_4e,0	; (0000:0045=11h)
+2924:06E0  C6 06 0046 00			mov	byte ptr ds:data_5e,0	; (0000:0046=0)
+2924:06E5  C6 06 0047 00			mov	byte ptr ds:data_6e,0	; (0000:0047=0F0h)
+2924:06EA  E9 0202				jmp	loc_91			; (08EF)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:06ED			loc_71:						;  xref 2924:02B4, 05FF
+2924:06ED  C6 06 0042 01			mov	byte ptr ds:data_1e,1	; (0000:0042=0)
+2924:06F2  C6 06 0044 00			mov	byte ptr ds:data_3e,0	; (0000:0044=0)
+2924:06F7  C6 06 0045 00			mov	byte ptr ds:data_4e,0	; (0000:0045=11h)
+2924:06FC  C6 06 0046 00			mov	byte ptr ds:data_5e,0	; (0000:0046=0)
+2924:0701  C6 06 0047 00			mov	byte ptr ds:data_6e,0	; (0000:0047=0F0h)
+2924:0706  E9 01E6				jmp	loc_91			; (08EF)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:0709			loc_72:						;  xref 2924:02A0, 05FF
+2924:0709  E8 FF00				call	sub_11			; (060C)
+2924:070C  C6 06 0042 04			mov	byte ptr ds:data_1e,4	; (0000:0042=0)
+2924:0711  B0 00				mov	al,0
+2924:0713  A2 0043				mov	ds:data_2e,al		; (0000:0043=0F0h)
+2924:0716  E9 0211				jmp	loc_96			; (092A)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:0719			loc_73:						;  xref 2924:0296, 05FF
+2924:0719  E8 FEF0				call	sub_11			; (060C)
+2924:071C  C6 06 0042 08			mov	byte ptr ds:data_1e,8	; (0000:0042=0)
+2924:0721  B0 47				mov	al,47h			; 'G'
+2924:0723  E9 024E				jmp	loc_100			; (0974)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 20
+
+2924:0726			loc_74:						;  xref 2924:0298, 05FF
+2924:0726  E8 FEE3				call	sub_11			; (060C)
+2924:0729  C6 06 0042 0A			mov	byte ptr ds:data_1e,0Ah	; (0000:0042=0)
+2924:072E  B0 4B				mov	al,4Bh			; 'K'
+2924:0730  E9 0241				jmp	loc_100			; (0974)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:0733			loc_75:						;  xref 2924:029A, 05FF
+2924:0733  50					push	ax
+2924:0734  06					push	es
+2924:0735  33 C0				xor	ax,ax			; Zero register
+2924:0737  8E C0				mov	es,ax
+2924:0739  26: A0 018C				mov	al,es:data_21e		; (0000:018C=0)
+2924:073D  3C 00				cmp	al,0
+2924:073F  74 0D				je	loc_76			; Jump if equal
+2924:0741  07					pop	es
+2924:0742  58					pop	ax
+2924:0743  E8 FED2				call	sub_12			; (0618)
+2924:0746  C6 06 0042 2F			mov	byte ptr ds:data_1e,2Fh	; (0000:0042=0) '/'
+2924:074B  E9 01A1				jmp	loc_91			; (08EF)
+2924:074E			loc_76:						;  xref 2924:073F
+2924:074E  07					pop	es
+2924:074F  58					pop	ax
+2924:0750  E8 FEB9				call	sub_11			; (060C)
+2924:0753  C6 06 0042 08			mov	byte ptr ds:data_1e,8	; (0000:0042=0)
+2924:0758  E9 02FD				jmp	loc_112			; (0A58)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:075B			loc_77:						;  xref 2924:02AA, 05FF
+2924:075B  E8 FEAE				call	sub_11			; (060C)
+2924:075E  C6 06 0042 0B			mov	byte ptr ds:data_1e,0Bh	; (0000:0042=0)
+2924:0763  E9 0189				jmp	loc_91			; (08EF)
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+2924:0766			loc_78:						;  xref 2924:02A2, 056C, 05FF
+2924:0766  1E					push	ds
+2924:0767  06					push	es
+2924:0768  53					push	bx
+2924:0769  B8 0040				mov	ax,40h
+2924:076C  8E D8				mov	ds,ax
+2924:076E  80 EA 80				sub	dl,80h
+2924:0771  80 FA 08				cmp	dl,8
+2924:0774  73 4E				jae	loc_81			; Jump if above or =
+2924:0776  80 E2 01				and	dl,1
+2924:0779  75 0D				jnz	loc_79			; Jump if not zero
+2924:077B  1E					push	ds
+2924:077C  33 C0				xor	ax,ax			; Zero register
+2924:077E  8E D8				mov	ds,ax
+2924:0780  C4 1E 0104				les	bx,dword ptr ds:data_10e	; (0000:0104=1160h) Load seg:offset pt
+2924:0784  1F					pop	ds
+2924:0785  EB 0B				jmp	short loc_80		; (0792)
+2924:0787  90					db	90h
+2924:0788			loc_79:						;  xref 2924:0779
+2924:0788  1E					push	ds
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 21
+
+2924:0789  33 C0				xor	ax,ax			; Zero register
+2924:078B  8E D8				mov	ds,ax
+2924:078D  C4 1E 0118				les	bx,dword ptr ds:data_11e	; (0000:0118=1180h) Load seg:offset pt
+2924:0791  1F					pop	ds
+2924:0792			loc_80:						;  xref 2924:0785
+2924:0792  51					push	cx
+2924:0793  B1 05				mov	cl,5
+2924:0795  D2 E2				shl	dl,cl			; Shift w/zeros fill
+2924:0797  88 16 0043				mov	ds:dsk_status_2,dl	; (0040:0043=0)
+2924:079B  08 36 0043				or	ds:dsk_status_2,dh	; (0040:0043=0)
+2924:079F  59					pop	cx
+2924:07A0  26: 8B 07				mov	ax,es:[bx]
+2924:07A3  86 E0				xchg	ah,al
+2924:07A5  2D 0002				sub	ax,2
+2924:07A8  8A E8				mov	ch,al
+2924:07AA  25 0300				and	ax,300h
+2924:07AD  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:07AF  D1 E8				shr	ax,1			; Shift w/zeros fill
+2924:07B1  0C 20				or	al,20h			; ' '
+2924:07B3  8A C8				mov	cl,al
+2924:07B5  26: 8A 77 02				mov	dh,es:[bx+2]
+2924:07B9  FE CE				dec	dh
+2924:07BB  8A 16 0075				mov	dl,ds:hdsk_count	; (0040:0075=2)
+2924:07BF  33 C0				xor	ax,ax			; Zero register
+2924:07C1  EB 11				jmp	short loc_82		; (07D4)
+2924:07C3  90					db	90h
+2924:07C4			loc_81:						;  xref 2924:0774
+2924:07C4  C6 06 0074 07			mov	byte ptr ds:hdsk_status_1,7	; (0040:0074=0)
+2924:07C9  B4 07				mov	ah,7
+2924:07CB  B0 00				mov	al,0
+2924:07CD  BA 0000				mov	dx,0
+2924:07D0  B9 0000				mov	cx,0
+2924:07D3  F9					stc				; Set carry flag
+2924:07D4			loc_82:						;  xref 2924:07C1
+2924:07D4  5B					pop	bx
+2924:07D5  07					pop	es
+2924:07D6  1F					pop	ds
+2924:07D7  CA 0002				retf	2			; Return far
+
+				;ƒƒƒƒƒ Indexed Entry Point ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ
+
+
+2924:07DA			loc_ret_83:					;  xref 2924:02A4, 05FF
+2924:07DA  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:085C, 08B6, 08E1, 0967, 0A05, 0AE2, 0B02
+				;                             0BFC, 0CA3, 0CBE, 0CDF, 0E12, 0E32, 0E54
+				;                             0E6C, 0E85, 0E9D, 0ED5, 0EE8, 0EF1, 0F4D
+
+2924:07DB			sub_14:
+2924:07DB  52					push	dx
+2924:07DC  51					push	cx
+2924:07DD  8A C8				mov	cl,al
+2924:07DF  BA 0331				mov	dx,331h
+2924:07E2  E8 08B6				call	sub_36			; (109B)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 22
+
+2924:07E5  EC					in	al,dx			; port 331h ??I/O Non-standard
+2924:07E6  0A C1				or	al,cl
+2924:07E8  EB 10				jmp	short loc_84		; (07FA)
+2924:07EA  90					db	90h
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0864, 08BE, 08E9, 096F, 0A2A, 0B0A, 0B14
+				;                             0C37, 0CC6, 0CE7, 0CF0, 0E3A, 0E5C, 0E74
+				;                             0E8D, 0EA5, 0EAA, 0EC6, 0EFF, 0F23, 0F31
+				;                             0F55, 0F6F
+
+2924:07EB			sub_15:
+2924:07EB  52					push	dx
+2924:07EC  51					push	cx
+2924:07ED  F6 D0				not	al
+2924:07EF  8A C8				mov	cl,al
+2924:07F1  BA 0331				mov	dx,331h
+2924:07F4  E8 08A4				call	sub_36			; (109B)
+2924:07F7  EC					in	al,dx			; port 331h ??I/O Non-standard
+2924:07F8  22 C1				and	al,cl
+2924:07FA			loc_84:						;  xref 2924:07E8
+2924:07FA  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:07FB  59					pop	cx
+2924:07FC  5A					pop	dx
+2924:07FD  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:09BE, 0A0A
+
+2924:07FE			sub_16:
+2924:07FE  52					push	dx
+2924:07FF  51					push	cx
+2924:0800  8A C8				mov	cl,al
+2924:0802  BA 0332				mov	dx,332h
+2924:0805  E8 0893				call	sub_36			; (109B)
+2924:0808  EC					in	al,dx			; port 332h ??I/O Non-standard
+2924:0809  0A C1				or	al,cl
+2924:080B  EB 10				jmp	short loc_85		; (081D)
+2924:080D  90					db	90h
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:09DC, 0A25, 0AE7, 0C01, 0CA8, 0E17, 0ECB
+				;                             0EDA
+
+2924:080E			sub_17:
+2924:080E  52					push	dx
+2924:080F  51					push	cx
+2924:0810  F6 D0				not	al
+2924:0812  8A C8				mov	cl,al
+2924:0814  BA 0332				mov	dx,332h
+2924:0817  E8 0881				call	sub_36			; (109B)
+2924:081A  EC					in	al,dx			; port 332h ??I/O Non-standard
+2924:081B  22 C1				and	al,cl
+2924:081D			loc_85:						;  xref 2924:080B
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 23
+
+2924:081D  EE					out	dx,al			; port 332h ??I/O Non-standard
+2924:081E  59					pop	cx
+2924:081F  5A					pop	dx
+2924:0820  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:089C, 08C7, 09A7, 0A2F, 0A4E, 0A74, 0A7E
+				;                             0AB6, 0AD8, 0B62, 0B8C, 0C3C, 0C9E, 0CFA
+				;                             0D40, 0D9A, 0E05, 0F36, 0F5A, 10EA, 118C
+				;                             11A3
+
+2924:0821			sub_18:
+2924:0821  52					push	dx
+2924:0822  51					push	cx
+2924:0823  8A C8				mov	cl,al
+2924:0825  BA 0333				mov	dx,333h
+2924:0828  E8 0870				call	sub_36			; (109B)
+2924:082B  EC					in	al,dx			; port 333h ??I/O Non-standard
+2924:082C  0A C1				or	al,cl
+2924:082E  EB 10				jmp	short loc_86		; (0840)
+2924:0830  90					db	90h
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:09A2, 09E4, 09E9, 0A6F, 0B5D, 0BF2, 0CF5
+				;                             0D95, 0ED0, 0F74, 10E5, 1187
+
+2924:0831			sub_19:
+2924:0831  52					push	dx
+2924:0832  51					push	cx
+2924:0833  F6 D0				not	al
+2924:0835  8A C8				mov	cl,al
+2924:0837  BA 0333				mov	dx,333h
+2924:083A  E8 085E				call	sub_36			; (109B)
+2924:083D  EC					in	al,dx			; port 333h ??I/O Non-standard
+2924:083E  22 C1				and	al,cl
+2924:0840			loc_86:						;  xref 2924:082E
+2924:0840  EE					out	dx,al			; port 333h ??I/O Non-standard
+2924:0841  59					pop	cx
+2924:0842  5A					pop	dx
+2924:0843  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0EEC, 0F14, 0F48
+
+2924:0844			sub_20:
+2924:0844  52					push	dx
+2924:0845  BA 0330				mov	dx,330h
+2924:0848  E8 0850				call	sub_36			; (109B)
+2924:084B  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:084C  5A					pop	dx
+2924:084D  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 24
+
+				;         Called from:   2924:0B6D, 0B81, 0D11, 0D18, 0D1F, 0D26, 0D39
+				;                             0DA3, 0DA8, 0DAC, 0DDD, 0F6A, 10F5, 10FE
+				;                             1101, 110C, 111E, 1128, 113B, 119C
+
+2924:084E			sub_21:
+2924:084E  52					push	dx
+2924:084F  E8 0729				call	sub_32			; (0F7B)
+2924:0852  BA 0330				mov	dx,330h
+2924:0855  E8 0843				call	sub_36			; (109B)
+2924:0858  EC					in	al,dx			; port 330h ??I/O Non-standard
+2924:0859  50					push	ax
+2924:085A  B0 10				mov	al,10h
+2924:085C  E8 FF7C				call	sub_14			; (07DB)
+2924:085F  E8 0729				call	sub_33			; (0F8B)
+2924:0862  B0 10				mov	al,10h
+2924:0864  E8 FF84				call	sub_15			; (07EB)
+2924:0867  58					pop	ax
+2924:0868  5A					pop	dx
+2924:0869  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:09EC, 0A51, 0A77, 0A81, 0AB9, 0ADB, 0AF5
+				;                             0B65, 0B7C, 0B8F, 0BF5, 0C3F, 0E08, 0E25
+				;                             0E47, 0E5F, 0E77, 0E90, 10ED
+
+2924:086A			sub_22:
+2924:086A  52					push	dx
+2924:086B  E8 070D				call	sub_32			; (0F7B)
+2924:086E  BA 0335				mov	dx,335h
+2924:0871  E8 0827				call	sub_36			; (109B)
+2924:0874  EC					in	al,dx			; port 335h ??I/O Non-standard
+2924:0875  A8 08				test	al,8
+2924:0877  75 03				jnz	loc_87			; Jump if not zero
+2924:0879  F9					stc				; Set carry flag
+2924:087A  5A					pop	dx
+2924:087B  C3					retn
+2924:087C			loc_87:						;  xref 2924:0877
+2924:087C  F8					clc				; Clear carry flag
+2924:087D  5A					pop	dx
+2924:087E  C3					retn
+							                        ;* No entry point to code
+2924:087F  52					push	dx
+2924:0880  BA 0334				mov	dx,334h
+2924:0883  E8 0815				call	sub_36			; (109B)
+2924:0886  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0887  A8 40				test	al,40h			; '@'
+2924:0889  5A					pop	dx
+2924:088A  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0DA0, 0DD0, 118F
+
+2924:088B			sub_23:
+2924:088B  52					push	dx
+2924:088C  BA 0334				mov	dx,334h
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 25
+
+2924:088F  E8 0809				call	sub_36			; (109B)
+2924:0892			loc_88:						;  xref 2924:0895
+2924:0892  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0893  A8 20				test	al,20h			; ' '
+2924:0895  74 FB				jz	loc_88			; Jump if zero
+2924:0897  5A					pop	dx
+2924:0898  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0908, 0941, 0A32, 0ABE, 0B94, 0C44, 0D43
+				;                             0DE2, 1140, 11A6
+
+2924:0899			sub_24:
+2924:0899  52					push	dx
+2924:089A  B0 03				mov	al,3
+2924:089C  E8 FF82				call	sub_18			; (0821)
+2924:089F  BA 0334				mov	dx,334h
+2924:08A2			loc_89:						;  xref 2924:08A7
+2924:08A2  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:08A3  24 1C				and	al,1Ch
+2924:08A5  3C 0C				cmp	al,0Ch
+2924:08A7  75 F9				jne	loc_89			; Jump if not equal
+2924:08A9  E8 06CF				call	sub_32			; (0F7B)
+2924:08AC  BA 0330				mov	dx,330h
+2924:08AF  E8 07E9				call	sub_36			; (109B)
+2924:08B2  EC					in	al,dx			; port 330h ??I/O Non-standard
+2924:08B3  50					push	ax
+2924:08B4  B0 10				mov	al,10h
+2924:08B6  E8 FF22				call	sub_14			; (07DB)
+2924:08B9  E8 06CF				call	sub_33			; (0F8B)
+2924:08BC  B0 10				mov	al,10h
+2924:08BE  E8 FF2A				call	sub_15			; (07EB)
+2924:08C1  58					pop	ax
+2924:08C2  5A					pop	dx
+2924:08C3  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:090E, 0947, 0A38, 0AC4, 0B9A, 0C4A, 0D47
+				;                             0DE8, 1143, 11AA
+
+2924:08C4			sub_25:
+2924:08C4  52					push	dx
+2924:08C5  B0 07				mov	al,7
+2924:08C7  E8 FF57				call	sub_18			; (0821)
+2924:08CA  BA 0334				mov	dx,334h
+2924:08CD			loc_90:						;  xref 2924:08D2
+2924:08CD  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:08CE  24 1C				and	al,1Ch
+2924:08D0  3C 1C				cmp	al,1Ch
+2924:08D2  75 F9				jne	loc_90			; Jump if not equal
+2924:08D4  E8 06A4				call	sub_32			; (0F7B)
+2924:08D7  BA 0330				mov	dx,330h
+2924:08DA  E8 07BE				call	sub_36			; (109B)
+2924:08DD  EC					in	al,dx			; port 330h ??I/O Non-standard
+2924:08DE  50					push	ax
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 26
+
+2924:08DF  B0 10				mov	al,10h
+2924:08E1  E8 FEF7				call	sub_14			; (07DB)
+2924:08E4  E8 06A4				call	sub_33			; (0F8B)
+2924:08E7  B0 10				mov	al,10h
+2924:08E9  E8 FEFF				call	sub_15			; (07EB)
+2924:08EC  58					pop	ax
+2924:08ED  5A					pop	dx
+2924:08EE  C3					retn
+2924:08EF			loc_91:						;  xref 2924:06EA, 0706, 074B, 0763
+2924:08EF  E8 05C3				call	sub_31			; (0EB5)
+2924:08F2  72 2D				jc	loc_94			; Jump if carry Set
+2924:08F4  A0 0042				mov	al,data_38		; (2924:0042=3Ch)
+2924:08F7  3C 2F				cmp	al,2Fh			; '/'
+2924:08F9  75 08				jne	loc_92			; Jump if not equal
+2924:08FB  E8 0503				call	sub_30			; (0E01)
+2924:08FE  72 21				jc	loc_94			; Jump if carry Set
+2924:0900  EB 06				jmp	short loc_93		; (0908)
+2924:0902  90					db	90h
+2924:0903			loc_92:						;  xref 2924:08F9
+2924:0903  E8 01CE				call	sub_27			; (0AD4)
+2924:0906  72 19				jc	loc_94			; Jump if carry Set
+2924:0908			loc_93:						;  xref 2924:0900
+2924:0908  E8 FF8E				call	sub_24			; (0899)
+2924:090B  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:090E  E8 FFB3				call	sub_25			; (08C4)
+2924:0911  A2 0076				mov	data_45,al		; (2924:0076=0C7h)
+2924:0914  EB 12				jmp	short loc_95		; (0928)
+							                        ;* No entry point to code
+2924:0916  90					nop
+2924:0917  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:091A  3C 00				cmp	al,0
+2924:091C  74 0A				je	loc_95			; Jump if equal
+2924:091E  E8 078F				call	sub_38			; (10B0)
+2924:0921			loc_94:						;  xref 2924:08F2, 08FE, 0906
+2924:0921  B0 02				mov	al,2
+2924:0923  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:0926  F9					stc				; Set carry flag
+2924:0927  C3					retn
+2924:0928			loc_95:						;  xref 2924:0914, 091C
+2924:0928  F8					clc				; Clear carry flag
+2924:0929  C3					retn
+2924:092A			loc_96:						;  xref 2924:0716
+2924:092A  BA 0000				mov	dx,0
+2924:092D  E8 0585				call	sub_31			; (0EB5)
+2924:0930  72 22				jc	loc_98			; Jump if carry Set
+2924:0932  E8 019F				call	sub_27			; (0AD4)
+2924:0935  72 1D				jc	loc_98			; Jump if carry Set
+2924:0937			loc_97:						;  xref 2924:093F
+2924:0937  BA 0334				mov	dx,334h
+2924:093A  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:093B  24 1C				and	al,1Ch
+2924:093D  3C 0C				cmp	al,0Ch
+2924:093F  75 F6				jne	loc_97			; Jump if not equal
+2924:0941  E8 FF55				call	sub_24			; (0899)
+2924:0944  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:0947  E8 FF7A				call	sub_25			; (08C4)
+2924:094A  A2 0076				mov	data_45,al		; (2924:0076=0C7h)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 27
+
+2924:094D  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:0950  3C 00				cmp	al,0
+2924:0952  74 02				je	loc_99			; Jump if equal
+2924:0954			loc_98:						;  xref 2924:0930, 0935
+2924:0954  F9					stc				; Set carry flag
+2924:0955  C3					retn
+2924:0956			loc_99:						;  xref 2924:0952
+2924:0956  F8					clc				; Clear carry flag
+2924:0957  C3					retn
+
+				;ﬂﬂﬂﬂ External Entry into Subroutine ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;
+				;         Called from:   2924:0C06, 0C0B, 0C10, 0C15, 0C1A, 0C1F, 0C2F
+
+2924:0958			sub_26:
+2924:0958  52					push	dx
+2924:0959  50					push	ax
+2924:095A  E8 061E				call	sub_32			; (0F7B)
+2924:095D  58					pop	ax
+2924:095E  BA 0330				mov	dx,330h
+2924:0961  E8 0737				call	sub_36			; (109B)
+2924:0964  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0965  B0 10				mov	al,10h
+2924:0967  E8 FE71				call	sub_14			; (07DB)
+2924:096A  E8 061E				call	sub_33			; (0F8B)
+2924:096D  B0 10				mov	al,10h
+2924:096F  E8 FE79				call	sub_15			; (07EB)
+2924:0972  5A					pop	dx
+2924:0973  C3					retn
+2924:0974			loc_100:					;  xref 2924:0723, 0730
+2924:0974  50					push	ax
+2924:0975  52					push	dx
+2924:0976  E8 0622				call	sub_34			; (0F9B)
+2924:0979  5A					pop	dx
+2924:097A  72 0E				jc	loc_101			; Jump if carry Set
+2924:097C  E8 0536				call	sub_31			; (0EB5)
+2924:097F  73 12				jnc	loc_102			; Jump if carry=0
+2924:0981  C6 06 0048 FA			mov	data_44,0FAh		; (2924:0048=1)
+2924:0986  58					pop	ax
+2924:0987  E9 00CC				jmp	loc_111			; (0A56)
+2924:098A			loc_101:					;  xref 2924:097A
+2924:098A  C6 06 0048 F9			mov	data_44,0F9h		; (2924:0048=1)
+2924:098F  58					pop	ax
+2924:0990  E9 00C3				jmp	loc_111			; (0A56)
+2924:0993			loc_102:					;  xref 2924:097F
+2924:0993  E8 013E				call	sub_27			; (0AD4)
+2924:0996  73 03				jnc	loc_103			; Jump if carry=0
+2924:0998  E9 00B1				jmp	loc_110			; (0A4C)
+2924:099B			loc_103:					;  xref 2924:0996
+2924:099B  58					pop	ax
+2924:099C  3C 4B				cmp	al,4Bh			; 'K'
+2924:099E  74 42				je	loc_105			; Jump if equal
+2924:09A0  B0 02				mov	al,2
+2924:09A2  E8 FE8C				call	sub_19			; (0831)
+2924:09A5  B0 01				mov	al,1
+2924:09A7  E8 FE77				call	sub_18			; (0821)
+2924:09AA  EB 01				jmp	short $+3		; delay for I/O
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 28
+
+2924:09AC  90					nop
+2924:09AD  52					push	dx
+2924:09AE  BA 0338				mov	dx,338h
+2924:09B1  E8 06E7				call	sub_36			; (109B)
+2924:09B4  B0 07				mov	al,7
+2924:09B6  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:09B7  5A					pop	dx
+2924:09B8  B0 03				mov	al,3
+2924:09BA  E6 0A				out	0Ah,al			; port 0Ah, DMA-1 mask reg bit
+2924:09BC  B0 0A				mov	al,0Ah
+2924:09BE  E8 FE3D				call	sub_16			; (07FE)
+2924:09C1  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:09C3  24 DF				and	al,0DFh
+2924:09C5  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:09C7  52					push	dx
+2924:09C8  BA 0337				mov	dx,337h
+2924:09CB  E8 06CD				call	sub_36			; (109B)
+2924:09CE  32 C0				xor	al,al			; Zero register
+2924:09D0  EE					out	dx,al			; port 337h ??I/O Non-standard
+2924:09D1  5A					pop	dx
+2924:09D2  E8 0634				call	sub_35			; (1009)
+2924:09D5  73 03				jnc	loc_104			; Jump if carry=0
+2924:09D7  EB 73				jmp	short loc_110		; (0A4C)
+2924:09D9  90					db	90h
+2924:09DA			loc_104:					;  xref 2924:09D5
+2924:09DA  B0 0A				mov	al,0Ah
+2924:09DC  E8 FE2F				call	sub_17			; (080E)
+2924:09DF  EB 4C				jmp	short loc_107		; (0A2D)
+2924:09E1  90					db	90h
+2924:09E2			loc_105:					;  xref 2924:099E
+2924:09E2  B0 02				mov	al,2
+2924:09E4  E8 FE4A				call	sub_19			; (0831)
+2924:09E7  B0 01				mov	al,1
+2924:09E9  E8 FE45				call	sub_19			; (0831)
+2924:09EC  E8 FE7B				call	sub_22			; (086A)
+2924:09EF  73 03				jnc	loc_106			; Jump if carry=0
+2924:09F1  EB 59				jmp	short loc_110		; (0A4C)
+2924:09F3  90					db	90h
+2924:09F4			loc_106:					;  xref 2924:09EF
+2924:09F4  52					push	dx
+2924:09F5  BA 0338				mov	dx,338h
+2924:09F8  E8 06A0				call	sub_36			; (109B)
+2924:09FB  B0 07				mov	al,7
+2924:09FD  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:09FE  5A					pop	dx
+2924:09FF  B0 03				mov	al,3
+2924:0A01  E6 0A				out	0Ah,al			; port 0Ah, DMA-1 mask reg bit
+2924:0A03  B0 01				mov	al,1
+2924:0A05  E8 FDD3				call	sub_14			; (07DB)
+2924:0A08  B0 0A				mov	al,0Ah
+2924:0A0A  E8 FDF1				call	sub_16			; (07FE)
+2924:0A0D  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:0A0F  24 DF				and	al,0DFh
+2924:0A11  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:0A13  52					push	dx
+2924:0A14  BA 0335				mov	dx,335h
+2924:0A17  E8 0681				call	sub_36			; (109B)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 29
+
+2924:0A1A  32 C0				xor	al,al			; Zero register
+2924:0A1C  EE					out	dx,al			; port 335h ??I/O Non-standard
+2924:0A1D  5A					pop	dx
+2924:0A1E  E8 05E8				call	sub_35			; (1009)
+2924:0A21  72 29				jc	loc_110			; Jump if carry Set
+2924:0A23  B0 0A				mov	al,0Ah
+2924:0A25  E8 FDE6				call	sub_17			; (080E)
+2924:0A28  B0 01				mov	al,1
+2924:0A2A  E8 FDBE				call	sub_15			; (07EB)
+2924:0A2D			loc_107:					;  xref 2924:09DF
+2924:0A2D  B0 03				mov	al,3
+2924:0A2F  E8 FDEF				call	sub_18			; (0821)
+2924:0A32			loc_108:					;  xref 2924:0A54
+2924:0A32  E8 FE64				call	sub_24			; (0899)
+2924:0A35  A2 0048				mov	ds:dsk_status_7,al	; (0040:0048=0)
+2924:0A38  E8 FE89				call	sub_25			; (08C4)
+2924:0A3B  A2 0076				mov	ds:hdsk_head_ctrl,al	; (0040:0076=0)
+2924:0A3E  A0 0048				mov	al,ds:dsk_status_7	; (0040:0048=0)
+2924:0A41  3C 00				cmp	al,0
+2924:0A43  74 05				je	loc_109			; Jump if equal
+2924:0A45  E8 0668				call	sub_38			; (10B0)
+2924:0A48  F9					stc				; Set carry flag
+2924:0A49  C3					retn
+2924:0A4A			loc_109:					;  xref 2924:0A43
+2924:0A4A  F8					clc				; Clear carry flag
+2924:0A4B  C3					retn
+2924:0A4C			loc_110:					;  xref 2924:0998, 09D7, 09F1, 0A21
+2924:0A4C  B0 03				mov	al,3
+2924:0A4E  E8 FDD0				call	sub_18			; (0821)
+2924:0A51  E8 FE16				call	sub_22			; (086A)
+2924:0A54  73 DC				jnc	loc_108			; Jump if carry=0
+2924:0A56			loc_111:					;  xref 2924:0987, 0990
+2924:0A56  F9					stc				; Set carry flag
+2924:0A57  C3					retn
+2924:0A58			loc_112:					;  xref 2924:0758
+2924:0A58  E8 045A				call	sub_31			; (0EB5)
+2924:0A5B  73 08				jnc	loc_113			; Jump if carry=0
+2924:0A5D  C6 06 0048 FA			mov	byte ptr ds:dsk_status_7,0FAh	; (0040:0048=0)
+2924:0A62  EB 6E				jmp	short loc_122		; (0AD2)
+2924:0A64  90					db	90h
+2924:0A65			loc_113:					;  xref 2924:0A5B
+2924:0A65  E8 006C				call	sub_27			; (0AD4)
+2924:0A68  73 03				jnc	loc_114			; Jump if carry=0
+2924:0A6A  EB 66				jmp	short loc_122		; (0AD2)
+2924:0A6C  90					db	90h
+2924:0A6D			loc_114:					;  xref 2924:0A68
+2924:0A6D  B0 02				mov	al,2
+2924:0A6F  E8 FDBF				call	sub_19			; (0831)
+2924:0A72  B0 01				mov	al,1
+2924:0A74  E8 FDAA				call	sub_18			; (0821)
+2924:0A77  E8 FDF0				call	sub_22			; (086A)
+2924:0A7A  73 10				jnc	loc_116			; Jump if carry=0
+2924:0A7C  B0 02				mov	al,2
+2924:0A7E  E8 FDA0				call	sub_18			; (0821)
+2924:0A81  E8 FDE6				call	sub_22			; (086A)
+2924:0A84  72 03				jc	loc_115			; Jump if carry Set
+2924:0A86  EB 36				jmp	short loc_120		; (0ABE)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 30
+
+2924:0A88  90					nop
+2924:0A89			loc_115:					;  xref 2924:0A84
+2924:0A89  EB 47				jmp	short loc_122		; (0AD2)
+2924:0A8B  90					db	90h
+2924:0A8C			loc_116:					;  xref 2924:0A7A
+2924:0A8C  52					push	dx
+2924:0A8D			loc_117:					;  xref 2924:0A93, 0AB1
+2924:0A8D ˙BA 0334				mov	dx,334h
+2924:0A90  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0A91  A8 20				test	al,20h			; ' '
+2924:0A93  74 F8				jz	loc_117			; Jump if zero
+2924:0A95  A8 08				test	al,8
+2924:0A97  75 1A				jnz	loc_119			; Jump if not zero
+2924:0A99  BA 0330				mov	dx,330h
+2924:0A9C  EC					in	al,dx			; port 330h ??I/O Non-standard
+2924:0A9D  BA 0331				mov	dx,331h
+2924:0AA0  B0 18				mov	al,18h
+2924:0AA2  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:0AA3			loc_118:					;  xref 2924:0AA9
+2924:0AA3  BA 0334				mov	dx,334h
+2924:0AA6  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0AA7  A8 20				test	al,20h			; ' '
+2924:0AA9  75 F8				jnz	loc_118			; Jump if not zero
+2924:0AAB  BA 0331				mov	dx,331h
+2924:0AAE  B0 08				mov	al,8
+2924:0AB0  EE					out	dx,al			; port 331h ??I/O Non-standard
+2924:0AB1  EB DA				jmp	short loc_117		; (0A8D)
+2924:0AB3			loc_119:					;  xref 2924:0A97
+2924:0AB3  5A					pop	dx
+2924:0AB4  B0 03				mov	al,3
+2924:0AB6  E8 FD68				call	sub_18			; (0821)
+2924:0AB9  E8 FDAE				call	sub_22			; (086A)
+2924:0ABC  72 14				jc	loc_122			; Jump if carry Set
+2924:0ABE			loc_120:					;  xref 2924:0A86
+2924:0ABE  E8 FDD8				call	sub_24			; (0899)
+2924:0AC1  A2 0048				mov	ds:dsk_status_7,al	; (0040:0048=0)
+2924:0AC4  E8 FDFD				call	sub_25			; (08C4)
+2924:0AC7  A0 0048				mov	al,ds:dsk_status_7	; (0040:0048=0)
+2924:0ACA  3C 00				cmp	al,0
+2924:0ACC  74 02				je	loc_121			; Jump if equal
+2924:0ACE  F9					stc				; Set carry flag
+2924:0ACF  C3					retn
+2924:0AD0			loc_121:					;  xref 2924:0ACC
+2924:0AD0  F8					clc				; Clear carry flag
+2924:0AD1  C3					retn
+2924:0AD2			loc_122:					;  xref 2924:0A62, 0A6A, 0A89, 0ABC
+2924:0AD2  F9					stc				; Set carry flag
+2924:0AD3  C3					retn
+				sub_9		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0903, 0932, 0993, 0A65, 0B56, 0BEB, 0D8E
+				;                             10DE, 1180
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 31
+
+
+2924:0AD4			sub_27		proc	near
+2924:0AD4  52					push	dx
+2924:0AD5  56					push	si
+2924:0AD6  B0 02				mov	al,2
+2924:0AD8  E8 FD46				call	sub_18			; (0821)
+2924:0ADB  E8 FD8C				call	sub_22			; (086A)
+2924:0ADE  72 43				jc	loc_126			; Jump if carry Set
+2924:0AE0  B0 01				mov	al,1
+2924:0AE2  E8 FCF6				call	sub_14			; (07DB)
+2924:0AE5  B0 20				mov	al,20h			; ' '
+2924:0AE7  E8 FD24				call	sub_17			; (080E)
+2924:0AEA  33 C9				xor	cx,cx			; Zero register
+2924:0AEC  BA 0330				mov	dx,330h
+2924:0AEF  E8 05A9				call	sub_36			; (109B)
+2924:0AF2  BE 0042				mov	si,42h
+2924:0AF5			loc_123:					;  xref 2924:0B10
+2924:0AF5 ˙E8 FD72				call	sub_22			; (086A)
+2924:0AF8  72 18				jc	loc_124			; Jump if carry Set
+2924:0AFA  E8 047E				call	sub_32			; (0F7B)
+2924:0AFD  8A 04				mov	al,[si]
+2924:0AFF  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0B00  B0 10				mov	al,10h
+2924:0B02  E8 FCD6				call	sub_14			; (07DB)
+2924:0B05  E8 0483				call	sub_33			; (0F8B)
+2924:0B08  B0 10				mov	al,10h
+2924:0B0A  E8 FCDE				call	sub_15			; (07EB)
+2924:0B0D  46					inc	si
+2924:0B0E  FE C1				inc	cl
+2924:0B10  EB E3				jmp	short loc_123		; (0AF5)
+2924:0B12			loc_124:					;  xref 2924:0AF8
+2924:0B12  B0 01				mov	al,1
+2924:0B14  E8 FCD4				call	sub_15			; (07EB)
+2924:0B17  80 F9 06				cmp	cl,6
+2924:0B1A  74 03				je	loc_125			; Jump if equal
+2924:0B1C  EB 05				jmp	short loc_126		; (0B23)
+2924:0B1E  90					db	90h
+2924:0B1F			loc_125:					;  xref 2924:0B1A
+2924:0B1F  F8					clc				; Clear carry flag
+2924:0B20  5E					pop	si
+2924:0B21  5A					pop	dx
+2924:0B22  C3					retn
+2924:0B23			loc_126:					;  xref 2924:0ADE, 0B1C
+2924:0B23  F9					stc				; Set carry flag
+2924:0B24  5E					pop	si
+2924:0B25  5A					pop	dx
+2924:0B26  C3					retn
+				sub_27		endp
+
+							                        ;* No entry point to code
+2924:0B27  50					push	ax
+2924:0B28  53					push	bx
+2924:0B29  51					push	cx
+2924:0B2A  52					push	dx
+2924:0B2B  06					push	es
+2924:0B2C  56					push	si
+2924:0B2D  C6 06 0042 1A			mov	data_38,1Ah		; (2924:0042=3Ch)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 32
+
+2924:0B32  A0 0043				mov	al,data_39		; (2924:0043=1)
+2924:0B35  24 E0				and	al,0E0h
+2924:0B37  A2 0043				mov	data_39,al		; (2924:0043=1)
+2924:0B3A  C6 06 0044 C4			mov	data_40,0C4h		; (2924:0044=74h)
+2924:0B3F  C6 06 0045 00			mov	data_41,0		; (2924:0045=3)
+2924:0B44  C6 06 0046 18			mov	data_42,18h		; (2924:0046=0E9h)
+2924:0B49  C6 06 0047 00			mov	data_43,0		; (2924:0047=0A7h)
+2924:0B4E  BA 0000				mov	dx,0
+2924:0B51  E8 0361				call	sub_31			; (0EB5)
+2924:0B54  72 58				jc	loc_131			; Jump if carry Set
+2924:0B56  E8 FF7B				call	sub_27			; (0AD4)
+2924:0B59  72 53				jc	loc_131			; Jump if carry Set
+2924:0B5B  B0 02				mov	al,2
+2924:0B5D  E8 FCD1				call	sub_19			; (0831)
+2924:0B60  B0 01				mov	al,1
+2924:0B62  E8 FCBC				call	sub_18			; (0821)
+2924:0B65  E8 FD02				call	sub_22			; (086A)
+2924:0B68  72 44				jc	loc_131			; Jump if carry Set
+2924:0B6A  B9 000E				mov	cx,0Eh
+
+2924:0B6D			locloop_127:					;  xref 2924:0B70
+2924:0B6D  E8 FCDE				call	sub_21			; (084E)
+2924:0B70  E2 FB				loop	locloop_127		; Loop if cx > 0
+
+2924:0B72  BE 0180				mov	si,180h
+2924:0B75  33 C0				xor	ax,ax			; Zero register
+2924:0B77  8E C0				mov	es,ax
+2924:0B79  B9 000A				mov	cx,0Ah
+
+2924:0B7C			locloop_128:					;  xref 2924:0B88
+2924:0B7C  E8 FCEB				call	sub_22			; (086A)
+2924:0B7F  72 09				jc	loc_129			; Jump if carry Set
+2924:0B81  E8 FCCA				call	sub_21			; (084E)
+2924:0B84  26: 88 04				mov	es:[si],al
+2924:0B87  46					inc	si
+2924:0B88  E2 F2				loop	locloop_128		; Loop if cx > 0
+
+2924:0B8A			loc_129:					;  xref 2924:0B7F
+2924:0B8A  B0 03				mov	al,3
+2924:0B8C  E8 FC92				call	sub_18			; (0821)
+2924:0B8F  E8 FCD8				call	sub_22			; (086A)
+2924:0B92  72 1A				jc	loc_131			; Jump if carry Set
+2924:0B94  E8 FD02				call	sub_24			; (0899)
+2924:0B97  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:0B9A  E8 FD27				call	sub_25			; (08C4)
+2924:0B9D  A2 0076				mov	data_45,al		; (2924:0076=0C7h)
+2924:0BA0  3C 00				cmp	al,0
+2924:0BA2  75 07				jne	loc_130			; Jump if not equal
+2924:0BA4  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:0BA7  3C 00				cmp	al,0
+2924:0BA9  74 07				je	loc_132			; Jump if equal
+2924:0BAB			loc_130:					;  xref 2924:0BA2
+2924:0BAB  E8 0502				call	sub_38			; (10B0)
+2924:0BAE			loc_131:					;  xref 2924:0B54, 0B59, 0B68, 0B92
+2924:0BAE  F9					stc				; Set carry flag
+2924:0BAF  EB 02				jmp	short loc_133		; (0BB3)
+2924:0BB1  90					db	90h
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 33
+
+2924:0BB2			loc_132:					;  xref 2924:0BA9
+2924:0BB2  F8					clc				; Clear carry flag
+2924:0BB3			loc_133:					;  xref 2924:0BAF
+2924:0BB3  5E					pop	si
+2924:0BB4  07					pop	es
+2924:0BB5  5A					pop	dx
+2924:0BB6  59					pop	cx
+2924:0BB7  5B					pop	bx
+2924:0BB8  58					pop	ax
+2924:0BB9  C3					retn
+							                        ;* No entry point to code
+2924:0BBA  50					push	ax
+2924:0BBB  53					push	bx
+2924:0BBC  51					push	cx
+2924:0BBD  52					push	dx
+2924:0BBE  06					push	es
+2924:0BBF  56					push	si
+2924:0BC0  C6 06 0042 15			mov	data_38,15h		; (2924:0042=3Ch)
+2924:0BC5  A0 0043				mov	al,data_39		; (2924:0043=1)
+2924:0BC8  24 E0				and	al,0E0h
+2924:0BCA  0C 11				or	al,11h
+2924:0BCC  A2 0043				mov	data_39,al		; (2924:0043=1)
+2924:0BCF  C6 06 0044 00			mov	data_40,0		; (2924:0044=74h)
+2924:0BD4  C6 06 0045 00			mov	data_41,0		; (2924:0045=3)
+2924:0BD9  C6 06 0046 10			mov	data_42,10h		; (2924:0046=0E9h)
+2924:0BDE  C6 06 0047 00			mov	data_43,0		; (2924:0047=0A7h)
+2924:0BE3  BA 0000				mov	dx,0
+2924:0BE6  E8 02CC				call	sub_31			; (0EB5)
+2924:0BE9  72 73				jc	loc_136			; Jump if carry Set
+2924:0BEB  E8 FEE6				call	sub_27			; (0AD4)
+2924:0BEE  72 6E				jc	loc_136			; Jump if carry Set
+2924:0BF0  B0 03				mov	al,3
+2924:0BF2  E8 FC3C				call	sub_19			; (0831)
+2924:0BF5  E8 FC72				call	sub_22			; (086A)
+2924:0BF8  72 64				jc	loc_136			; Jump if carry Set
+2924:0BFA  B0 01				mov	al,1
+2924:0BFC  E8 FBDC				call	sub_14			; (07DB)
+2924:0BFF  B0 20				mov	al,20h			; ' '
+2924:0C01  E8 FC0A				call	sub_17			; (080E)
+2924:0C04  B0 00				mov	al,0
+2924:0C06  E8 FD4F				call	sub_26			; (0958)
+2924:0C09  B0 00				mov	al,0
+2924:0C0B  E8 FD4A				call	sub_26			; (0958)
+2924:0C0E  B0 00				mov	al,0
+2924:0C10  E8 FD45				call	sub_26			; (0958)
+2924:0C13  B0 00				mov	al,0
+2924:0C15  E8 FD40				call	sub_26			; (0958)
+2924:0C18  B0 04				mov	al,4
+2924:0C1A  E8 FD3B				call	sub_26			; (0958)
+2924:0C1D  B0 0A				mov	al,0Ah
+2924:0C1F  E8 FD36				call	sub_26			; (0958)
+2924:0C22 ˙BE 0180				mov	si,data_13e		; (0000:0180=0)
+2924:0C25  33 C0				xor	ax,ax			; Zero register
+2924:0C27  8E C0				mov	es,ax
+2924:0C29  B9 000A				mov	cx,0Ah
+
+2924:0C2C			locloop_134:					;  xref 2924:0C33
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 34
+
+2924:0C2C  26: 8A 04				mov	al,es:[si]
+2924:0C2F  E8 FD26				call	sub_26			; (0958)
+2924:0C32  46					inc	si
+2924:0C33  E2 F7				loop	locloop_134		; Loop if cx > 0
+
+2924:0C35  B0 01				mov	al,1
+2924:0C37  E8 FBB1				call	sub_15			; (07EB)
+2924:0C3A  B0 03				mov	al,3
+2924:0C3C  E8 FBE2				call	sub_18			; (0821)
+2924:0C3F  E8 FC28				call	sub_22			; (086A)
+2924:0C42  72 1A				jc	loc_136			; Jump if carry Set
+2924:0C44  E8 FC52				call	sub_24			; (0899)
+2924:0C47  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:0C4A  E8 FC77				call	sub_25			; (08C4)
+2924:0C4D  A2 0076				mov	data_45,al		; (2924:0076=0C7h)
+2924:0C50  3C 00				cmp	al,0
+2924:0C52  75 07				jne	loc_135			; Jump if not equal
+2924:0C54  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:0C57  3C 00				cmp	al,0
+2924:0C59  74 07				je	loc_137			; Jump if equal
+2924:0C5B			loc_135:					;  xref 2924:0C52
+2924:0C5B  E8 0452				call	sub_38			; (10B0)
+2924:0C5E			loc_136:					;  xref 2924:0BE9, 0BEE, 0BF8, 0C42
+2924:0C5E  F9					stc				; Set carry flag
+2924:0C5F  EB 02				jmp	short loc_138		; (0C63)
+2924:0C61  90					db	90h
+2924:0C62			loc_137:					;  xref 2924:0C59
+2924:0C62  F8					clc				; Clear carry flag
+2924:0C63			loc_138:					;  xref 2924:0C5F
+2924:0C63  5E					pop	si
+2924:0C64  07					pop	es
+2924:0C65  5A					pop	dx
+2924:0C66  59					pop	cx
+2924:0C67  5B					pop	bx
+2924:0C68  58					pop	ax
+2924:0C69  C3					retn
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0110, 01AD, 06A6, 06AB
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0C6A			sub_28		proc	near
+2924:0C6A  50					push	ax
+2924:0C6B  53					push	bx
+2924:0C6C  51					push	cx
+2924:0C6D  52					push	dx
+2924:0C6E  06					push	es
+2924:0C6F  56					push	si
+2924:0C70  C6 06 0042 25			mov	byte ptr ds:dsk_status_1,25h	; (0040:0042=0) '%'
+2924:0C75  A0 0043				mov	al,ds:dsk_status_2	; (0040:0043=0)
+2924:0C78  24 E0				and	al,0E0h
+2924:0C7A  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:0C7D  C6 06 0044 00			mov	byte ptr ds:dsk_status_3,0	; (0040:0044=0)
+2924:0C82  C6 06 0045 00			mov	byte ptr ds:dsk_status_4,0	; (0040:0045=0)
+2924:0C87  C6 06 0046 00			mov	byte ptr ds:dsk_status_5,0	; (0040:0046=0)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 35
+
+2924:0C8C  C6 06 0047 00			mov	byte ptr ds:dsk_status_6,0	; (0040:0047=0)
+2924:0C91  BA 0000				mov	dx,0
+2924:0C94  E8 021E				call	sub_31			; (0EB5)
+2924:0C97  73 03				jnc	loc_139			; Jump if carry=0
+2924:0C99  E9 00BB				jmp	loc_145			; (0D57)
+2924:0C9C			loc_139:					;  xref 2924:0C97
+2924:0C9C  B0 02				mov	al,2
+2924:0C9E  E8 FB80				call	sub_18			; (0821)
+2924:0CA1  B0 01				mov	al,1
+2924:0CA3  E8 FB35				call	sub_14			; (07DB)
+2924:0CA6  B0 20				mov	al,20h			; ' '
+2924:0CA8  E8 FB63				call	sub_17			; (080E)
+2924:0CAB  33 C9				xor	cx,cx			; Zero register
+2924:0CAD  BA 0330				mov	dx,330h
+2924:0CB0  E8 03E8				call	sub_36			; (109B)
+2924:0CB3  BE 0042				mov	si,42h
+2924:0CB6			loc_140:					;  xref 2924:0CD1
+2924:0CB6 ˙E8 02C2				call	sub_32			; (0F7B)
+2924:0CB9  8A 04				mov	al,[si]
+2924:0CBB  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0CBC  B0 10				mov	al,10h
+2924:0CBE  E8 FB1A				call	sub_14			; (07DB)
+2924:0CC1  E8 02C7				call	sub_33			; (0F8B)
+2924:0CC4  B0 10				mov	al,10h
+2924:0CC6  E8 FB22				call	sub_15			; (07EB)
+2924:0CC9  46					inc	si
+2924:0CCA  FE C1				inc	cl
+2924:0CCC  80 F9 06				cmp	cl,6
+2924:0CCF  74 02				je	loc_141			; Jump if equal
+2924:0CD1  EB E3				jmp	short loc_140		; (0CB6)
+2924:0CD3			loc_141:					;  xref 2924:0CCF
+2924:0CD3  B9 0004				mov	cx,4
+2924:0CD6			loc_142:					;  xref 2924:0CEC
+2924:0CD6  51					push	cx
+2924:0CD7  E8 02A1				call	sub_32			; (0F7B)
+2924:0CDA  32 C0				xor	al,al			; Zero register
+2924:0CDC  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0CDD  B0 10				mov	al,10h
+2924:0CDF  E8 FAF9				call	sub_14			; (07DB)
+2924:0CE2  E8 02A6				call	sub_33			; (0F8B)
+2924:0CE5  B0 10				mov	al,10h
+2924:0CE7  E8 FB01				call	sub_15			; (07EB)
+2924:0CEA  59					pop	cx
+2924:0CEB  49					dec	cx
+2924:0CEC  75 E8				jnz	loc_142			; Jump if not zero
+2924:0CEE  B0 01				mov	al,1
+2924:0CF0  E8 FAF8				call	sub_15			; (07EB)
+2924:0CF3  B0 02				mov	al,2
+2924:0CF5  E8 FB39				call	sub_19			; (0831)
+2924:0CF8  B0 01				mov	al,1
+2924:0CFA  E8 FB24				call	sub_18			; (0821)
+2924:0CFD  E8 027B				call	sub_32			; (0F7B)
+2924:0D00  BA 0334				mov	dx,334h
+2924:0D03  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0D04  24 0C				and	al,0Ch
+2924:0D06  3C 04				cmp	al,4
+2924:0D08  75 34				jne	loc_144			; Jump if not equal
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 36
+
+2924:0D0A  33 C0				xor	ax,ax			; Zero register
+2924:0D0C  8E C0				mov	es,ax
+2924:0D0E  BE 0184				mov	si,184h
+2924:0D11  E8 FB3A				call	sub_21			; (084E)
+2924:0D14  26: 88 04				mov	es:[si],al
+2924:0D17  46					inc	si
+2924:0D18  E8 FB33				call	sub_21			; (084E)
+2924:0D1B  26: 88 04				mov	es:[si],al
+2924:0D1E  46					inc	si
+2924:0D1F  E8 FB2C				call	sub_21			; (084E)
+2924:0D22  26: 88 04				mov	es:[si],al
+2924:0D25  46					inc	si
+2924:0D26  E8 FB25				call	sub_21			; (084E)
+2924:0D29  26: 88 04				mov	es:[si],al
+2924:0D2C			loc_143:					;  xref 2924:0D3C
+2924:0D2C ˙E8 024C				call	sub_32			; (0F7B)
+2924:0D2F  BA 0334				mov	dx,334h
+2924:0D32  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0D33  24 0C				and	al,0Ch
+2924:0D35  3C 04				cmp	al,4
+2924:0D37  75 05				jne	loc_144			; Jump if not equal
+2924:0D39  E8 FB12				call	sub_21			; (084E)
+2924:0D3C  EB EE				jmp	short loc_143		; (0D2C)
+2924:0D3E			loc_144:					;  xref 2924:0D08, 0D37
+2924:0D3E  B0 03				mov	al,3
+2924:0D40  E8 FADE				call	sub_18			; (0821)
+2924:0D43  E8 FB53				call	sub_24			; (0899)
+2924:0D46  50					push	ax
+2924:0D47  E8 FB7A				call	sub_25			; (08C4)
+2924:0D4A  58					pop	ax
+2924:0D4B  3C 00				cmp	al,0
+2924:0D4D  75 08				jne	loc_145			; Jump if not equal
+2924:0D4F  F8					clc				; Clear carry flag
+2924:0D50  5E					pop	si
+2924:0D51  07					pop	es
+2924:0D52  5A					pop	dx
+2924:0D53  59					pop	cx
+2924:0D54  5B					pop	bx
+2924:0D55  58					pop	ax
+2924:0D56  C3					retn
+2924:0D57			loc_145:					;  xref 2924:0C99, 0D4D
+2924:0D57  F9					stc				; Set carry flag
+2924:0D58  5E					pop	si
+2924:0D59  07					pop	es
+2924:0D5A  5A					pop	dx
+2924:0D5B  59					pop	cx
+2924:0D5C  5B					pop	bx
+2924:0D5D  58					pop	ax
+2924:0D5E  C3					retn
+				sub_28		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0123
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 37
+
+
+2924:0D5F			sub_29		proc	near
+2924:0D5F  50					push	ax
+2924:0D60  53					push	bx
+2924:0D61  51					push	cx
+2924:0D62  52					push	dx
+2924:0D63  06					push	es
+2924:0D64  56					push	si
+2924:0D65  C6 06 0042 12			mov	byte ptr ds:dsk_status_1,12h	; (0040:0042=0)
+2924:0D6A  A0 0043				mov	al,ds:dsk_status_2	; (0040:0043=0)
+2924:0D6D  24 E0				and	al,0E0h
+2924:0D6F  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:0D72  C6 06 0044 00			mov	byte ptr ds:dsk_status_3,0	; (0040:0044=0)
+2924:0D77  C6 06 0045 00			mov	byte ptr ds:dsk_status_4,0	; (0040:0045=0)
+2924:0D7C  C6 06 0046 24			mov	byte ptr ds:dsk_status_5,24h	; (0040:0046=0) '$'
+2924:0D81  C6 06 0047 00			mov	byte ptr ds:dsk_status_6,0	; (0040:0047=0)
+2924:0D86  BA 0000				mov	dx,0
+2924:0D89  E8 0129				call	sub_31			; (0EB5)
+2924:0D8C  72 67				jc	loc_152			; Jump if carry Set
+2924:0D8E  E8 FD43				call	sub_27			; (0AD4)
+2924:0D91  72 62				jc	loc_152			; Jump if carry Set
+2924:0D93  B0 02				mov	al,2
+2924:0D95  E8 FA99				call	sub_19			; (0831)
+2924:0D98  B0 01				mov	al,1
+2924:0D9A  E8 FA84				call	sub_18			; (0821)
+2924:0D9D  B9 0008				mov	cx,8
+
+2924:0DA0			locloop_146:					;  xref 2924:0DA6
+2924:0DA0  E8 FAE8				call	sub_23			; (088B)
+2924:0DA3  E8 FAA8				call	sub_21			; (084E)
+2924:0DA6  E2 F8				loop	locloop_146		; Loop if cx > 0
+
+2924:0DA8  E8 FAA3				call	sub_21			; (084E)
+2924:0DAB  50					push	ax
+2924:0DAC  E8 FA9F				call	sub_21			; (084E)
+2924:0DAF  3C 53				cmp	al,53h			; 'S'
+2924:0DB1  74 10				je	loc_148			; Jump if equal
+2924:0DB3  3C 4F				cmp	al,4Fh			; 'O'
+2924:0DB5  74 04				je	loc_147			; Jump if equal
+2924:0DB7  58					pop	ax
+2924:0DB8  EB 16				jmp	short loc_150		; (0DD0)
+2924:0DBA  90					db	90h
+2924:0DBB			loc_147:					;  xref 2924:0DB5
+2924:0DBB  58					pop	ax
+2924:0DBC  3C 43				cmp	al,43h			; 'C'
+2924:0DBE  75 10				jne	loc_150			; Jump if not equal
+2924:0DC0  EB 06				jmp	short loc_149		; (0DC8)
+2924:0DC2  90					db	90h
+2924:0DC3			loc_148:					;  xref 2924:0DB1
+2924:0DC3  58					pop	ax
+2924:0DC4  3C 20				cmp	al,20h			; ' '
+2924:0DC6  75 08				jne	loc_150			; Jump if not equal
+2924:0DC8			loc_149:					;  xref 2924:0DC0
+2924:0DC8  33 C0				xor	ax,ax			; Zero register
+2924:0DCA  8E C0				mov	es,ax
+2924:0DCC  26: A2 018C				mov	es:data_21e,al		; (0000:018C=0)
+2924:0DD0			loc_150:					;  xref 2924:0DB8, 0DBE, 0DC6, 0DE0
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 38
+
+2924:0DD0 ˙E8 FAB8				call	sub_23			; (088B)
+2924:0DD3  BA 0334				mov	dx,334h
+2924:0DD6  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0DD7  24 0C				and	al,0Ch
+2924:0DD9  3C 04				cmp	al,4
+2924:0DDB  75 05				jne	loc_151			; Jump if not equal
+2924:0DDD  E8 FA6E				call	sub_21			; (084E)
+2924:0DE0  EB EE				jmp	short loc_150		; (0DD0)
+2924:0DE2			loc_151:					;  xref 2924:0DDB
+2924:0DE2  E8 FAB4				call	sub_24			; (0899)
+2924:0DE5  A2 0048				mov	ds:dsk_status_7,al	; (0040:0048=0)
+2924:0DE8  E8 FAD9				call	sub_25			; (08C4)
+2924:0DEB  A2 0076				mov	ds:hdsk_head_ctrl,al	; (0040:0076=0)
+2924:0DEE  A0 0048				mov	al,ds:dsk_status_7	; (0040:0048=0)
+2924:0DF1  3C 00				cmp	al,0
+2924:0DF3  74 04				je	loc_153			; Jump if equal
+2924:0DF5			loc_152:					;  xref 2924:0D8C, 0D91
+2924:0DF5  F9					stc				; Set carry flag
+2924:0DF6  EB 02				jmp	short loc_154		; (0DFA)
+2924:0DF8  90					db	90h
+2924:0DF9			loc_153:					;  xref 2924:0DF3
+2924:0DF9  F8					clc				; Clear carry flag
+2924:0DFA			loc_154:					;  xref 2924:0DF6
+2924:0DFA  5E					pop	si
+2924:0DFB  07					pop	es
+2924:0DFC  5A					pop	dx
+2924:0DFD  59					pop	cx
+2924:0DFE  5B					pop	bx
+2924:0DFF  58					pop	ax
+2924:0E00  C3					retn
+				sub_29		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:08FB
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0E01			sub_30		proc	near
+2924:0E01  52					push	dx
+2924:0E02  56					push	si
+2924:0E03  B0 02				mov	al,2
+2924:0E05  E8 FA19				call	sub_18			; (0821)
+2924:0E08  E8 FA5F				call	sub_22			; (086A)
+2924:0E0B  73 03				jnc	loc_155			; Jump if carry=0
+2924:0E0D  E9 00A1				jmp	loc_159			; (0EB1)
+2924:0E10			loc_155:					;  xref 2924:0E0B
+2924:0E10  B0 01				mov	al,1
+2924:0E12  E8 F9C6				call	sub_14			; (07DB)
+2924:0E15  B0 20				mov	al,20h			; ' '
+2924:0E17  E8 F9F4				call	sub_17			; (080E)
+2924:0E1A  33 C9				xor	cx,cx			; Zero register
+2924:0E1C  BA 0330				mov	dx,330h
+2924:0E1F  E8 0279				call	sub_36			; (109B)
+2924:0E22  BE 0042				mov	si,42h
+2924:0E25			loc_156:					;  xref 2924:0E45
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 39
+
+2924:0E25 ˙E8 FA42				call	sub_22			; (086A)
+2924:0E28  72 7E				jc	loc_158			; Jump if carry Set
+2924:0E2A  E8 014E				call	sub_32			; (0F7B)
+2924:0E2D  8A 04				mov	al,[si]
+2924:0E2F  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0E30  B0 10				mov	al,10h
+2924:0E32  E8 F9A6				call	sub_14			; (07DB)
+2924:0E35  E8 0153				call	sub_33			; (0F8B)
+2924:0E38  B0 10				mov	al,10h
+2924:0E3A  E8 F9AE				call	sub_15			; (07EB)
+2924:0E3D  46					inc	si
+2924:0E3E  FE C1				inc	cl
+2924:0E40  80 F9 06				cmp	cl,6
+2924:0E43  74 02				je	loc_157			; Jump if equal
+2924:0E45  EB DE				jmp	short loc_156		; (0E25)
+2924:0E47			loc_157:					;  xref 2924:0E43
+2924:0E47  E8 FA20				call	sub_22			; (086A)
+2924:0E4A  72 5C				jc	loc_158			; Jump if carry Set
+2924:0E4C  E8 012C				call	sub_32			; (0F7B)
+2924:0E4F  32 C0				xor	al,al			; Zero register
+2924:0E51  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0E52  B0 10				mov	al,10h
+2924:0E54  E8 F984				call	sub_14			; (07DB)
+2924:0E57  E8 0131				call	sub_33			; (0F8B)
+2924:0E5A  B0 10				mov	al,10h
+2924:0E5C  E8 F98C				call	sub_15			; (07EB)
+2924:0E5F  E8 FA08				call	sub_22			; (086A)
+2924:0E62  72 44				jc	loc_158			; Jump if carry Set
+2924:0E64  E8 0114				call	sub_32			; (0F7B)
+2924:0E67  32 C0				xor	al,al			; Zero register
+2924:0E69  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0E6A  B0 10				mov	al,10h
+2924:0E6C  E8 F96C				call	sub_14			; (07DB)
+2924:0E6F  E8 0119				call	sub_33			; (0F8B)
+2924:0E72  B0 10				mov	al,10h
+2924:0E74  E8 F974				call	sub_15			; (07EB)
+2924:0E77  E8 F9F0				call	sub_22			; (086A)
+2924:0E7A  72 2C				jc	loc_158			; Jump if carry Set
+2924:0E7C  E8 00FC				call	sub_32			; (0F7B)
+2924:0E7F  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:0E82  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0E83  B0 10				mov	al,10h
+2924:0E85  E8 F953				call	sub_14			; (07DB)
+2924:0E88  E8 0100				call	sub_33			; (0F8B)
+2924:0E8B  B0 10				mov	al,10h
+2924:0E8D  E8 F95B				call	sub_15			; (07EB)
+2924:0E90  E8 F9D7				call	sub_22			; (086A)
+2924:0E93  72 13				jc	loc_158			; Jump if carry Set
+2924:0E95  E8 00E3				call	sub_32			; (0F7B)
+2924:0E98  32 C0				xor	al,al			; Zero register
+2924:0E9A  EE					out	dx,al			; port 330h ??I/O Non-standard
+2924:0E9B  B0 10				mov	al,10h
+2924:0E9D  E8 F93B				call	sub_14			; (07DB)
+2924:0EA0  E8 00E8				call	sub_33			; (0F8B)
+2924:0EA3  B0 10				mov	al,10h
+2924:0EA5  E8 F943				call	sub_15			; (07EB)
+2924:0EA8			loc_158:					;  xref 2924:0E28, 0E4A, 0E62, 0E7A
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 40
+
+										;            0E93
+2924:0EA8  B0 01				mov	al,1
+2924:0EAA  E8 F93E				call	sub_15			; (07EB)
+2924:0EAD  F8					clc				; Clear carry flag
+2924:0EAE  5E					pop	si
+2924:0EAF  5A					pop	dx
+2924:0EB0  C3					retn
+2924:0EB1			loc_159:					;  xref 2924:0E0D
+2924:0EB1  F9					stc				; Set carry flag
+2924:0EB2  5E					pop	si
+2924:0EB3  5A					pop	dx
+2924:0EB4  C3					retn
+				sub_30		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:08EF, 092D, 097C, 0A58, 0B51, 0BE6, 0C94
+				;                             0D89, 10BD, 117B
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0EB5			sub_31		proc	near
+2924:0EB5  52					push	dx
+2924:0EB6  51					push	cx
+2924:0EB7  B0 00				mov	al,0
+2924:0EB9  24 07				and	al,7
+2924:0EBB  8A C8				mov	cl,al
+2924:0EBD  B0 01				mov	al,1
+2924:0EBF  D2 E0				shl	al,cl			; Shift w/zeros fill
+2924:0EC1  0C 80				or	al,80h
+2924:0EC3  50					push	ax
+2924:0EC4  B0 FF				mov	al,0FFh
+2924:0EC6  E8 F922				call	sub_15			; (07EB)
+2924:0EC9  B0 FF				mov	al,0FFh
+2924:0ECB  E8 F940				call	sub_17			; (080E)
+2924:0ECE  B0 FF				mov	al,0FFh
+2924:0ED0  E8 F95E				call	sub_19			; (0831)
+2924:0ED3  B0 08				mov	al,8
+2924:0ED5  E8 F903				call	sub_14			; (07DB)
+2924:0ED8  B0 40				mov	al,40h			; '@'
+2924:0EDA  E8 F931				call	sub_17			; (080E)
+2924:0EDD  BA 0333				mov	dx,333h
+2924:0EE0  E8 01B8				call	sub_36			; (109B)
+2924:0EE3  32 C0				xor	al,al			; Zero register
+2924:0EE5  EE					out	dx,al			; port 333h ??I/O Non-standard
+2924:0EE6  B0 01				mov	al,1
+2924:0EE8  E8 F8F0				call	sub_14			; (07DB)
+2924:0EEB  58					pop	ax
+2924:0EEC  E8 F955				call	sub_20			; (0844)
+2924:0EEF  B0 04				mov	al,4
+2924:0EF1  E8 F8E7				call	sub_14			; (07DB)
+2924:0EF4  BA 0334				mov	dx,334h
+2924:0EF7  E8 01A1				call	sub_36			; (109B)
+2924:0EFA  32 C0				xor	al,al			; Zero register
+2924:0EFC  EE					out	dx,al			; port 334h ??I/O Non-standard
+2924:0EFD  B0 08				mov	al,8
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 41
+
+2924:0EFF  E8 F8E9				call	sub_15			; (07EB)
+2924:0F02  BA 0334				mov	dx,334h
+2924:0F05  E8 0193				call	sub_36			; (109B)
+2924:0F08  B9 8F9C				mov	cx,8F9Ch
+
+2924:0F0B			locloop_160:					;  xref 2924:0F10
+2924:0F0B  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F0C  A8 40				test	al,40h			; '@'
+2924:0F0E  75 1F				jnz	loc_162			; Jump if not zero
+2924:0F10  E2 F9				loop	locloop_160		; Loop if cx > 0
+
+2924:0F12  32 C0				xor	al,al			; Zero register
+2924:0F14  E8 F92D				call	sub_20			; (0844)
+2924:0F17  B9 001E				mov	cx,1Eh
+
+2924:0F1A			locloop_161:					;  xref 2924:0F1F
+2924:0F1A  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F1B  A8 40				test	al,40h			; '@'
+2924:0F1D  75 10				jnz	loc_162			; Jump if not zero
+2924:0F1F  E2 F9				loop	locloop_161		; Loop if cx > 0
+
+2924:0F21  B0 05				mov	al,5
+2924:0F23  E8 F8C5				call	sub_15			; (07EB)
+2924:0F26  C6 06 0048 FF			mov	data_44,0FFh		; (2924:0048=1)
+2924:0F2B  F9					stc				; Set carry flag
+2924:0F2C  EB 4A				jmp	short loc_164		; (0F78)
+2924:0F2E  90					db	90h
+2924:0F2F			loc_162:					;  xref 2924:0F0E, 0F1D
+2924:0F2F  B0 04				mov	al,4
+2924:0F31  E8 F8B7				call	sub_15			; (07EB)
+2924:0F34  B0 06				mov	al,6
+2924:0F36  E8 F8E8				call	sub_18			; (0821)
+2924:0F39  E8 003F				call	sub_32			; (0F7B)
+2924:0F3C  BA 0334				mov	dx,334h
+2924:0F3F  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F40  24 1C				and	al,1Ch
+2924:0F42  3C 18				cmp	al,18h
+2924:0F44  75 27				jne	loc_163			; Jump if not equal
+2924:0F46  B0 80				mov	al,80h
+2924:0F48  E8 F8F9				call	sub_20			; (0844)
+2924:0F4B  B0 10				mov	al,10h
+2924:0F4D  E8 F88B				call	sub_14			; (07DB)
+2924:0F50  E8 0038				call	sub_33			; (0F8B)
+2924:0F53  B0 10				mov	al,10h
+2924:0F55  E8 F893				call	sub_15			; (07EB)
+2924:0F58  B0 07				mov	al,7
+2924:0F5A  E8 F8C4				call	sub_18			; (0821)
+2924:0F5D  E8 001B				call	sub_32			; (0F7B)
+2924:0F60  BA 0334				mov	dx,334h
+2924:0F63  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F64  24 1C				and	al,1Ch
+2924:0F66  3C 1C				cmp	al,1Ch
+2924:0F68  75 03				jne	loc_163			; Jump if not equal
+2924:0F6A  E8 F8E1				call	sub_21			; (084E)
+2924:0F6D			loc_163:					;  xref 2924:0F44, 0F68
+2924:0F6D  B0 01				mov	al,1
+2924:0F6F  E8 F879				call	sub_15			; (07EB)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 42
+
+2924:0F72  B0 05				mov	al,5
+2924:0F74  E8 F8BA				call	sub_19			; (0831)
+2924:0F77  F8					clc				; Clear carry flag
+2924:0F78			loc_164:					;  xref 2924:0F2C
+2924:0F78  59					pop	cx
+2924:0F79  5A					pop	dx
+2924:0F7A  C3					retn
+				sub_31		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:084F, 086B, 08A9, 08D4, 095A, 0AFA, 0CB6
+				;                             0CD7, 0CFD, 0D2C, 0E2A, 0E4C, 0E64, 0E7C
+				;                             0E95, 0F39, 0F5D, 112E
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0F7B			sub_32		proc	near
+2924:0F7B  50					push	ax
+2924:0F7C  52					push	dx
+2924:0F7D  BA 0334				mov	dx,334h
+2924:0F80  E8 0118				call	sub_36			; (109B)
+2924:0F83			loc_165:					;  xref 2924:0F86
+2924:0F83  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F84  A8 20				test	al,20h			; ' '
+2924:0F86  74 FB				jz	loc_165			; Jump if zero
+2924:0F88  5A					pop	dx
+2924:0F89  58					pop	ax
+2924:0F8A  C3					retn
+				sub_32		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:085F, 08B9, 08E4, 096A, 0B05, 0CC1, 0CE2
+				;                             0E35, 0E57, 0E6F, 0E88, 0EA0, 0F50
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0F8B			sub_33		proc	near
+2924:0F8B  51					push	cx
+2924:0F8C  52					push	dx
+2924:0F8D  BA 0334				mov	dx,334h
+2924:0F90  E8 0108				call	sub_36			; (109B)
+2924:0F93			loc_166:					;  xref 2924:0F96
+2924:0F93  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:0F94  A8 20				test	al,20h			; ' '
+2924:0F96  75 FB				jnz	loc_166			; Jump if not zero
+2924:0F98  5A					pop	dx
+2924:0F99  59					pop	cx
+2924:0F9A  C3					retn
+				sub_33		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 43
+
+				;
+				;         Called from:   2924:0976
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:0F9B			sub_34		proc	near
+2924:0F9B  50					push	ax
+2924:0F9C  A0 0042				mov	al,data_38		; (2924:0042=3Ch)
+2924:0F9F  3C 08				cmp	al,8
+2924:0FA1  74 08				je	loc_167			; Jump if equal
+2924:0FA3  3C 0A				cmp	al,0Ah
+2924:0FA5  74 04				je	loc_167			; Jump if equal
+2924:0FA7  58					pop	ax
+2924:0FA8  EB 0B				jmp	short loc_168		; (0FB5)
+2924:0FAA  90					db	90h
+2924:0FAB			loc_167:					;  xref 2924:0FA1, 0FA5
+2924:0FAB  A0 0046				mov	al,data_42		; (2924:0046=0E9h)
+2924:0FAE  3C 81				cmp	al,81h
+2924:0FB0  58					pop	ax
+2924:0FB1  72 02				jc	loc_168			; Jump if carry Set
+2924:0FB3  F9					stc				; Set carry flag
+2924:0FB4  C3					retn
+2924:0FB5			loc_168:					;  xref 2924:0FA8, 0FB1
+2924:0FB5  51					push	cx
+2924:0FB6  FA					cli				; Disable interrupts
+2924:0FB7  E6 0C				out	0Ch,al			; port 0Ch, DMA-1 clr byte ptr
+2924:0FB9  50					push	ax
+2924:0FBA  58					pop	ax
+2924:0FBB  E6 0B				out	0Bh,al			; port 0Bh, DMA-1 mode reg
+2924:0FBD  8C C0				mov	ax,es
+2924:0FBF  B1 04				mov	cl,4
+2924:0FC1  D3 C0				rol	ax,cl			; Rotate
+2924:0FC3  8A E8				mov	ch,al
+2924:0FC5  24 F0				and	al,0F0h
+2924:0FC7  03 C3				add	ax,bx
+2924:0FC9  73 02				jnc	loc_169			; Jump if carry=0
+2924:0FCB  FE C5				inc	ch
+2924:0FCD			loc_169:					;  xref 2924:0FC9
+2924:0FCD  50					push	ax
+2924:0FCE  E6 06				out	6,al			; port 6, DMA-1 bas&add ch 3
+2924:0FD0  8A C4				mov	al,ah
+2924:0FD2  E6 06				out	6,al			; port 6, DMA-1 bas&add ch 3
+2924:0FD4  8A C5				mov	al,ch
+2924:0FD6  24 0F				and	al,0Fh
+2924:0FD8  E6 82				out	82h,al			; port 82h, DMA page reg ch 3
+2924:0FDA  A0 0042				mov	al,data_38		; (2924:0042=3Ch)
+2924:0FDD  3C 08				cmp	al,8
+2924:0FDF  74 0D				je	loc_170			; Jump if equal
+2924:0FE1  3C 0A				cmp	al,0Ah
+2924:0FE3  74 09				je	loc_170			; Jump if equal
+2924:0FE5  32 E4				xor	ah,ah			; Zero register
+2924:0FE7  A0 0046				mov	al,data_42		; (2924:0046=0E9h)
+2924:0FEA  48					dec	ax
+2924:0FEB  EB 0E				jmp	short loc_171		; (0FFB)
+2924:0FED  90					db	90h
+2924:0FEE			loc_170:					;  xref 2924:0FDF, 0FE3
+2924:0FEE  51					push	cx
+2924:0FEF  B9 0200				mov	cx,200h
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 44
+
+2924:0FF2  A0 0046				mov	al,data_42		; (2924:0046=0E9h)
+2924:0FF5  32 E4				xor	ah,ah			; Zero register
+2924:0FF7  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:0FF9  48					dec	ax
+2924:0FFA  59					pop	cx
+2924:0FFB			loc_171:					;  xref 2924:0FEB
+2924:0FFB  50					push	ax
+2924:0FFC  E6 07				out	7,al			; port 7, DMA-1 bas&cnt ch 3
+2924:0FFE  8A C4				mov	al,ah
+2924:1000  E6 07				out	7,al			; port 7, DMA-1 bas&cnt ch 3
+2924:1002  FB					sti				; Enable interrupts
+2924:1003  59					pop	cx
+2924:1004  58					pop	ax
+2924:1005  03 C1				add	ax,cx
+2924:1007  59					pop	cx
+2924:1008  C3					retn
+				sub_34		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:09D2, 0A1E
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:1009			sub_35		proc	near
+2924:1009  FB					sti				; Enable interrupts
+2924:100A  53					push	bx
+2924:100B  51					push	cx
+2924:100C  52					push	dx
+2924:100D  56					push	si
+2924:100E  06					push	es
+2924:100F  B8 0040				mov	ax,40h
+2924:1012  8E D8				mov	ds,ax
+2924:1014  B3 FF				mov	bl,0FFh
+2924:1016  07					pop	es
+2924:1017  8B CB				mov	cx,bx
+2924:1019  B8 0444				mov	ax,444h
+2924:101C  F7 E1				mul	cx			; dx:ax = reg * ax
+2924:101E  E8 007B				call	sub_37			; (109C)
+2924:1021  03 D0				add	dx,ax
+2924:1023  83 D1 00				adc	cx,0
+2924:1026  8B D9				mov	bx,cx
+2924:1028  8B C2				mov	ax,dx
+2924:102A			loc_172:					;  xref 2924:1043, 1049
+2924:102A  50					push	ax
+2924:102B  53					push	bx
+2924:102C  BA 0335				mov	dx,335h
+2924:102F  E8 0069				call	sub_36			; (109B)
+2924:1032  EC					in	al,dx			; port 335h ??I/O Non-standard
+2924:1033  A8 10				test	al,10h
+2924:1035  74 05				jz	loc_173			; Jump if zero
+2924:1037  5B					pop	bx
+2924:1038  58					pop	ax
+2924:1039  EB 13				jmp	short loc_174		; (104E)
+2924:103B  90					db	90h
+2924:103C			loc_173:					;  xref 2924:1035
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 45
+
+2924:103C  E8 005D				call	sub_37			; (109C)
+2924:103F  5B					pop	bx
+2924:1040  58					pop	ax
+2924:1041  3B D9				cmp	bx,cx
+2924:1043  77 E5				ja	loc_172			; Jump if above
+2924:1045  72 1D				jc	loc_175			; Jump if carry Set
+2924:1047  3B C2				cmp	ax,dx
+2924:1049  77 DF				ja	loc_172			; Jump if above
+2924:104B  EB 17				jmp	short loc_175		; (1064)
+2924:104D  90					db	90h
+2924:104E			loc_174:					;  xref 2924:1039
+2924:104E  BA 0338				mov	dx,338h
+2924:1051  E8 0047				call	sub_36			; (109B)
+2924:1054  B0 04				mov	al,4
+2924:1056  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:1057  BA 0337				mov	dx,337h
+2924:105A  E8 003E				call	sub_36			; (109B)
+2924:105D  EC					in	al,dx			; port 337h ??I/O Non-standard
+2924:105E  5E					pop	si
+2924:105F  5A					pop	dx
+2924:1060  59					pop	cx
+2924:1061  5B					pop	bx
+2924:1062  F8					clc				; Clear carry flag
+2924:1063  C3					retn
+2924:1064			loc_175:					;  xref 2924:1045, 104B
+2924:1064  FA					cli				; Disable interrupts
+2924:1065  50					push	ax
+2924:1066  B0 20				mov	al,20h			; ' '
+2924:1068  E6 20				out	20h,al			; port 20h, 8259-1 int command
+										;  al = 20h, end of interrupt
+2924:106A  B0 07				mov	al,7
+2924:106C  E6 0A				out	0Ah,al			; port 0Ah, DMA-1 mask reg bit
+2924:106E  BA 0338				mov	dx,338h
+2924:1071  E8 0027				call	sub_36			; (109B)
+2924:1074  B0 04				mov	al,4
+2924:1076  EE					out	dx,al			; port 338h ??I/O Non-standard
+2924:1077  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:1079  0C 20				or	al,20h			; ' '
+2924:107B  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:107D  58					pop	ax
+2924:107E  FB					sti				; Enable interrupts
+2924:107F  C6 06 0048 FE			mov	byte ptr ds:dsk_status_7,0FEh	; (0040:0048=0)
+2924:1084  5E					pop	si
+2924:1085  5A					pop	dx
+2924:1086  59					pop	cx
+2924:1087  5B					pop	bx
+2924:1088  F9					stc				; Set carry flag
+2924:1089  C3					retn
+				sub_35		endp
+
+							                        ;* No entry point to code
+2924:108A  50					push	ax
+2924:108B  B0 20				mov	al,20h			; ' '
+2924:108D  E6 20				out	20h,al			; port 20h, 8259-1 int command
+										;  al = 20h, end of interrupt
+2924:108F  B0 07				mov	al,7
+2924:1091  E6 0A				out	0Ah,al			; port 0Ah, DMA-1 mask reg bit
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 46
+
+2924:1093  E4 21				in	al,21h			; port 21h, 8259-1 int IMR
+2924:1095  0C 20				or	al,20h			; ' '
+2924:1097  E6 21				out	21h,al			; port 21h, 8259-1 int comands
+2924:1099  58					pop	ax
+2924:109A  CF					iret				; Interrupt return
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:04FC, 0524, 07E2, 07F4, 0805, 0817, 0828
+				;                             083A, 0848, 0855, 0871, 0883, 088F, 08AF
+				;                             08DA, 0961, 09B1, 09CB, 09F8, 0A17, 0AEF
+				;                             0CB0, 0E1F, 0EE0, 0EF7, 0F05, 0F80, 0F90
+				;                             102F, 1051, 105A, 1071
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:109B			sub_36		proc	near
+2924:109B  C3					retn
+				sub_36		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:101E, 103C
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:109C			sub_37		proc	near
+2924:109C  50					push	ax
+2924:109D  1E					push	ds
+2924:109E  B8 0040				mov	ax,40h
+2924:10A1  8E D8				mov	ds,ax
+2924:10A3  FA					cli				; Disable interrupts
+2924:10A4  8B 16 006C				mov	dx,ds:timer_low		; (0040:006C=8A8Ch)
+2924:10A8  8B 0E 006E				mov	cx,ds:timer_hi		; (0040:006E=13h)
+2924:10AC  FB					sti				; Enable interrupts
+2924:10AD  1F					pop	ds
+2924:10AE  58					pop	ax
+2924:10AF  C3					retn
+				sub_37		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:091E, 0A45, 0BAB, 0C5B
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:10B0			sub_38		proc	near
+2924:10B0  B8 0040				mov	ax,40h
+2924:10B3  8E C0				mov	es,ax
+2924:10B5  8A 26 0076				mov	ah,data_45		; (2924:0076=0C7h)
+2924:10B9  A0 0048				mov	al,data_44		; (2924:0048=1)
+2924:10BC  50					push	ax
+2924:10BD  E8 FDF5				call	sub_31			; (0EB5)
+2924:10C0  73 03				jnc	loc_176			; Jump if carry=0
+2924:10C2  E9 0090				jmp	loc_182			; (1155)
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 47
+
+2924:10C5			loc_176:					;  xref 2924:10C0
+2924:10C5  C6 06 0042 03			mov	data_38,3		; (2924:0042=3Ch)
+2924:10CA  C6 06 0044 00			mov	data_40,0		; (2924:0044=74h)
+2924:10CF  C6 06 0045 00			mov	data_41,0		; (2924:0045=3)
+2924:10D4  C6 06 0046 10			mov	data_42,10h		; (2924:0046=0E9h)
+2924:10D9  C6 06 0047 00			mov	data_43,0		; (2924:0047=0A7h)
+2924:10DE  E8 F9F3				call	sub_27			; (0AD4)
+2924:10E1  72 6B				jc	loc_181			; Jump if carry Set
+2924:10E3  B0 02				mov	al,2
+2924:10E5  E8 F749				call	sub_19			; (0831)
+2924:10E8  B0 01				mov	al,1
+2924:10EA  E8 F734				call	sub_18			; (0821)
+2924:10ED  E8 F77A				call	sub_22			; (086A)
+2924:10F0  72 5C				jc	loc_181			; Jump if carry Set
+2924:10F2  BF 0000				mov	di,0
+2924:10F5  E8 F756				call	sub_21			; (084E)
+2924:10F8  26: 88 85 0042			mov	es:dsk_status_1[di],al	; (0040:0042=0)
+2924:10FD  47					inc	di
+2924:10FE  E8 F74D				call	sub_21			; (084E)
+2924:1101  E8 F74A				call	sub_21			; (084E)
+2924:1104  26: 88 85 0042			mov	es:dsk_status_1[di],al	; (0040:0042=0)
+2924:1109  47					inc	di
+2924:110A  B1 00				mov	cl,0
+2924:110C			loc_177:					;  xref 2924:111A
+2924:110C  E8 F73F				call	sub_21			; (084E)
+2924:110F  26: 88 85 0042			mov	es:dsk_status_1[di],al	; (0040:0042=0)
+2924:1114  47					inc	di
+2924:1115  FE C1				inc	cl
+2924:1117  80 F9 04				cmp	cl,4
+2924:111A  75 F0				jne	loc_177			; Jump if not equal
+2924:111C  B1 00				mov	cl,0
+2924:111E			loc_178:					;  xref 2924:1126
+2924:111E  E8 F72D				call	sub_21			; (084E)
+2924:1121  FE C1				inc	cl
+2924:1123  80 F9 05				cmp	cl,5
+2924:1126  75 F6				jne	loc_178			; Jump if not equal
+2924:1128  E8 F723				call	sub_21			; (084E)
+2924:112B  A2 0048				mov	data_44,al		; (2924:0048=1)
+2924:112E			loc_179:					;  xref 2924:113E
+2924:112E ˙E8 FE4A				call	sub_32			; (0F7B)
+2924:1131  BA 0334				mov	dx,334h
+2924:1134  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:1135  24 1C				and	al,1Ch
+2924:1137  3C 04				cmp	al,4
+2924:1139  75 05				jne	loc_180			; Jump if not equal
+2924:113B  E8 F710				call	sub_21			; (084E)
+2924:113E  EB EE				jmp	short loc_179		; (112E)
+2924:1140			loc_180:					;  xref 2924:1139
+2924:1140  E8 F756				call	sub_24			; (0899)
+2924:1143  E8 F77E				call	sub_25			; (08C4)
+2924:1146  A0 0043				mov	al,data_39		; (2924:0043=1)
+2924:1149  A2 0076				mov	data_45,al		; (2924:0076=0C7h)
+2924:114C  58					pop	ax
+2924:114D  C3					retn
+2924:114E			loc_181:					;  xref 2924:10E1, 10F0
+2924:114E  C6 06 0048 FD			mov	data_44,0FDh		; (2924:0048=1)
+2924:1153  58					pop	ax
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 48
+
+2924:1154  C3					retn
+2924:1155			loc_182:					;  xref 2924:10C2
+2924:1155  C6 06 0048 FC			mov	data_44,0FCh		; (2924:0048=1)
+2924:115A  58					pop	ax
+2924:115B  C3					retn
+				sub_38		endp
+
+
+				;ﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂﬂ
+				;                              SUBROUTINE
+				;
+				;         Called from:   2924:0109, 01AA, 06A3, 06C4
+				;‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹‹
+
+2924:115C			sub_39		proc	near
+2924:115C  C6 06 0042 03			mov	byte ptr ds:dsk_status_1,3	; (0040:0042=0)
+2924:1161  A0 0043				mov	al,ds:dsk_status_2	; (0040:0043=0)
+2924:1164  24 E0				and	al,0E0h
+2924:1166  A2 0043				mov	ds:dsk_status_2,al	; (0040:0043=0)
+2924:1169  32 C0				xor	al,al			; Zero register
+2924:116B  A2 0044				mov	ds:dsk_status_3,al	; (0040:0044=0)
+2924:116E  A2 0045				mov	ds:dsk_status_4,al	; (0040:0045=0)
+2924:1171  A2 0047				mov	ds:dsk_status_6,al	; (0040:0047=0)
+2924:1174  C6 06 0046 00			mov	byte ptr ds:dsk_status_5,0	; (0040:0046=0)
+2924:1179  8A D0				mov	dl,al
+2924:117B  E8 FD37				call	sub_31			; (0EB5)
+2924:117E  72 34				jc	loc_185			; Jump if carry Set
+2924:1180  E8 F951				call	sub_27			; (0AD4)
+2924:1183  72 2F				jc	loc_185			; Jump if carry Set
+2924:1185  B0 02				mov	al,2
+2924:1187  E8 F6A7				call	sub_19			; (0831)
+2924:118A  B0 01				mov	al,1
+2924:118C  E8 F692				call	sub_18			; (0821)
+2924:118F			loc_183:					;  xref 2924:119F
+2924:118F ˙E8 F6F9				call	sub_23			; (088B)
+2924:1192  BA 0334				mov	dx,334h
+2924:1195  EC					in	al,dx			; port 334h ??I/O Non-standard
+2924:1196  24 0C				and	al,0Ch
+2924:1198  3C 04				cmp	al,4
+2924:119A  75 05				jne	loc_184			; Jump if not equal
+2924:119C  E8 F6AF				call	sub_21			; (084E)
+2924:119F  EB EE				jmp	short loc_183		; (118F)
+2924:11A1			loc_184:					;  xref 2924:119A
+2924:11A1  B0 03				mov	al,3
+2924:11A3  E8 F67B				call	sub_18			; (0821)
+2924:11A6  E8 F6F0				call	sub_24			; (0899)
+2924:11A9  50					push	ax
+2924:11AA  E8 F717				call	sub_25			; (08C4)
+2924:11AD  58					pop	ax
+2924:11AE  3C 00				cmp	al,0
+2924:11B0  75 02				jne	loc_185			; Jump if not equal
+2924:11B2  F8					clc				; Clear carry flag
+2924:11B3  C3					retn
+2924:11B4			loc_185:					;  xref 2924:117E, 1183, 11B0
+2924:11B4  F9					stc				; Set carry flag
+2924:11B5  C3					retn
+				sub_39		endp
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 49
+
+
+2924:11B6  0D 0A 0A 0A 4E 43	data_91		db	0Dh, 0Ah, 0Ah, 0Ah, 'NCL 500 SCSI'	;  xref 2924:0459
+2924:11BC  4C 20 35 30 30 20
+2924:11C2  53 43 53 49
+2924:11C6  20 48 4F 53 54 20			db	' HOST ADAPTER FORMAT UTILITY (VE'
+2924:11CC  41 44 41 50 54 45
+2924:11D2  52 20 46 4F 52 4D
+2924:11D8  41 54 20 55 54 49
+2924:11DE  4C 49 54 59 20 28
+2924:11E4  56 45
+2924:11E6  52 53 49 4F 4E 20			db	'RSION 1.0)$'
+2924:11EC  31 2E 30 29 24
+2924:11F1  0D 0A 0A 20 57 41	data_92		db	0Dh, 0Ah, 0Ah, ' WARNING: ALL FIL'	;  xref 2924:045F
+2924:11F7  52 4E 49 4E 47 3A
+2924:11FD  20 41 4C 4C 20 46
+2924:1203  49 4C
+2924:1205  45 53 20 4F 4E 20			db	'ES ON DISK W'
+2924:120B  44 49 53 4B 20 57
+2924:1211  49 4C 4C 20 42 45			db	'ILL BE LOST !!!', 0Dh, 0Ah, ' DO'
+2924:1217  20 4C 4F 53 54 20
+2924:121D  21 21 21 0D 0A 20
+2924:1223  44 4F
+2924:1225  20 59 4F 55 20 57			db	' YOU WISH TO CONTINUE ? (Y/N): $'
+2924:122B  49 53 48 20 54 4F
+2924:1231  20 43 4F 4E 54 49
+2924:1237  4E 55 45 20 3F 20
+2924:123D  28 59 2F 4E 29 3A
+2924:1243  20 24
+2924:1245  0D 0A 0A 20 53 45	data_93		db	0Dh, 0Ah, 0Ah, ' SELECT SCSI DRIV'	;  xref 2924:0471
+2924:124B  4C 45 43 54 20 53
+2924:1251  43 53 49 20 44 52
+2924:1257  49 56
+2924:1259  45 20 55 4E 49 54			db	'E UNIT NUMBE'
+2924:125F  20 4E 55 4D 42 45
+2924:1265  52 20 28 30 20 4F			db	'R (0 OR 1): $'
+2924:126B  52 20 31 29 3A 20
+2924:1271  24
+2924:1272  0D 0A 0A 20 49 4E	data_94		db	0Dh, 0Ah, 0Ah, ' INTERLEAVE FACTO'	;  xref 2924:0480
+2924:1278  54 45 52 4C 45 41
+2924:127E  56 45 20 46 41 43
+2924:1284  54 4F
+2924:1286  52 3A 20 24				db	'R: $'
+2924:128A  0D 0A 0A 20 49 53	data_95		db	0Dh, 0Ah, 0Ah, ' IS SCSI UNIT NUM'	;  xref 2924:0492
+2924:1290  20 53 43 53 49 20
+2924:1296  55 4E 49 54 20 4E
+2924:129C  55 4D
+2924:129E  42 45 52 20 41 4E			db	'BER AND INTE'
+2924:12A4  44 20 49 4E 54 45
+2924:12AA  52 4C 45 41 56 45			db	'RLEAVE FACTOR ABOVE CORRECT ? (Y'
+2924:12B0  20 46 41 43 54 4F
+2924:12B6  52 20 41 42 4F 56
+2924:12BC  45 20 43 4F 52 52
+2924:12C2  45 43 54 20 3F 20
+2924:12C8  28 59
+2924:12CA  2F 4E 29 3A 20 24			db	'/N): $'
+2924:12D0  20					db	' '
+2924:12D1  0D 0A 0A 20 46 4F	data_96		db	0Dh, 0Ah, 0Ah, ' FORMATTING ... $'	;  xref 2924:04A3
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 50
+
+2924:12D7  52 4D 41 54 54 49
+2924:12DD  4E 47 20 2E 2E 2E
+2924:12E3  20 24
+2924:12E5  0D 0A 0A 20 46 4F	data_97		db	0Dh, 0Ah, 0Ah, ' FORMAT COMPLETED'	;  xref 2924:04C4
+2924:12EB  52 4D 41 54 20 43
+2924:12F1  4F 4D 50 4C 45 54
+2924:12F7  45 44
+2924:12F9  2E 24				db	'.$'
+2924:12FB  0D 0A 0A 20 44 4F	data_98		db	0Dh, 0Ah, 0Ah, ' DO YOU WANT TO F'	;  xref 2924:04CA
+2924:1301  20 59 4F 55 20 57
+2924:1307  41 4E 54 20 54 4F
+2924:130D  20 46
+2924:130F  4F 52 4D 41 54 20			db	'ORMAT ANOTHE'
+2924:1315  41 4E 4F 54 48 45
+2924:131B  52 20 44 52 49 56			db	'R DRIVE ?  (Y/N): $'
+2924:1321  45 20 3F 20 20 28
+2924:1327  59 2F 4E 29 3A 20
+2924:132D  24
+2924:132E  0D 0A 0A 20 2A 2A	data_99		db	0Dh, 0Ah, 0Ah, ' *** PLEASE REBOO'	;  xref 2924:04DB
+2924:1334  2A 20 50 4C 45 41
+2924:133A  53 45 20 52 45 42
+2924:1340  4F 4F
+2924:1342  54 20 53 59 53 54			db	'T SYSTEM BEF'
+2924:1348  45 4D 20 42 45 46
+2924:134E  4F 52 45 20 43 52			db	'ORE CREATING DOS PARTITION ***$'
+2924:1354  45 41 54 49 4E 47
+2924:135A  20 44 4F 53 20 50
+2924:1360  41 52 54 49 54 49
+2924:1366  4F 4E 20 2A 2A 2A
+2924:136C  24
+2924:136D  0492[FF]				db	1170 dup (0FFh)
+2924:17FF  A4					db	0A4h
+2924:1800  0800[FF]				db	2048 dup (0FFh)
+
+				seg_a		ends
+
+
+
+						end	start
+           ncl501.lst      (c)	COPYRIGHT 1988,1989 NATIONAL	Sourcer	v8.01  26-Jun-2021  7:32 pm   Page 51
+
+
+				±±±±±±±±±±±±±±±±±±±± CROSS REFERENCE - KEY ENTRY POINTS ±±±±±±±±±±±±±±±±±±±
+
+				    seg:off    type	   label
+				   ---- ----   ----   --------------------------------
+				   2924:0000   far    start
+
+				 ±±±±±±±±±±±±±±±±±± Interrupt Usage Synopsis ±±±±±±±±±±±±±±±±±±
+
+				        Interrupt 10h : Video display	ah=functn xxh
+				        Interrupt 10h :  ah=0Ah	 set char al at present curs
+				        Interrupt 10h :  ah=0Eh	 write char al, teletype mode
+				        Interrupt 13h : Disk  dl=drive #  ah=func xxh
+				        Interrupt 13h :  ah=00h	 reset disk, al=return status
+				        Interrupt 13h :  ah=02h	 read sectors to memory es:bx
+				        Interrupt 13h :  ah=07h	 format	hdsk, start at cyl cx
+				        Interrupt 13h :  ah=10h	 get drive ready status in al
+				        Interrupt 13h :  ah=11h	 recalibrate drive
+				        Interrupt 18h : ROM basic
+				        Interrupt 21h : DOS Services  ah=function xxh
+				        Interrupt 21h :  ah=01h	 get keybd char al, with echo
+				        Interrupt 21h :  ah=4Ch	 terminate with al=return code
+				        Interrupt 40h : Floppy dl=drive	# ah=func xxh
+				        Interrupt 40h :  ah=00h	 reset disk, al=return status
+				            1 Ocurrences of non-standard interrupts used (search for ??).
+
+				 ±±±±±±±±±±±±±±±±±± I/O Port Usage Synopsis  ±±±±±±±±±±±±±±±±±±
+
+				        Port 6     : DMA-1 bas&add ch 3
+				        Port 7     : DMA-1 bas&cnt ch 3
+				        Port 0Ah   : DMA-1 mask	reg bit
+				        Port 0Bh   : DMA-1 mode	reg
+				        Port 0Ch   : DMA-1 clr byte ptr
+				        Port 20h   : 8259-1 int	command
+				        Port 20h   :  al = 20h,	end of interrupt
+				        Port 21h   : 8259-1 int	IMR
+				        Port 21h   : 8259-1 int	comands
+				        Port 82h   : DMA page reg ch 3
+				           62 Ocurrences of non-standard I/O ports used (search for ??).
+

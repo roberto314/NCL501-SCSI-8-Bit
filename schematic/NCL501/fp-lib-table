@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "my_own_conn")(type "KiCad")(uri "/home/rob/Nextcloud/Documents/Elektronik/kicad/Libraries/my_own_conn.pretty")(options "")(descr ""))
+)

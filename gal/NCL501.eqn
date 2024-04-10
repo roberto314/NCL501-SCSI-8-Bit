@@ -1,0 +1,56 @@
+GAL16V8
+; Version: 1
+; Version History:
+; v1: first functional Version
+
+; Signal Connections
+;1    2       3  4   5   6     7   8    9    10 
+IOSEL BIOSSEL A3 IOW IOR SDACK RST MEMR MEMW GND
+A12 RAMWR A11 CP SCSICS DATEN DIR RAMCE ROMCE  VCC
+;11 12    13  14 15     16    17  18     19     20
+
+; IOSEL   - In - Low Active - from LS688 U7
+; BIOSSEL - In - Low Active - from LS688 U8
+; A3      - In - ISA Address 
+; A11     - In - ISA Address 
+; A12     - In - ISA Address 
+; IOW     - In - Low Active - ISA IO Write
+; IOR     - In - Low Active - ISA IO Read
+; MEMW    - In - Low Active - ISA Memory Write
+; MEMR    - In - Low Active - ISA Memory Read
+; RST     - In - Low Active - ISA Inverted Reset
+; SDACK   - In - Low Active - DACK from 53C80
+; RAMWR   - Out - LowActive - /WE Signal to 6116 RAM Chip
+; RAMCE   - Out - LowActive - /CE Signal to 6116 RAM Chip
+; ROMCE   - Out - LowActive - /CE Signal to 27C64 ROM Chip
+; SCSICS  - Out - LowActive - /CE Signal to 53C80 Chip
+; CP      - Out - Clock Pulse to LS175 U1
+; DATEN   - Out - LowActive - to LS245 U9 Enable
+; DIR     - Out - to LS245 U9 High: A->B (Write), Low Read
+
+;EQUATIONS
+
+/ROMCE = RST & /BIOSSEL & /A11 
+       # RST & /BIOSSEL & /A12 ; A11 or A12 can be high, not both
+
+/RAMCE = RST & /BIOSSEL & A11 & A12 ; Ram is selected when A11 & A12 is high
+
+/SCSICS = RST & /IOSEL & /A3 & SDACK
+
+/DATEN = RST & /IOR & /IOSEL
+       # RST & /IOW & /IOSEL
+       # RST & /IOR & /SDACK
+       # RST & /IOW & /SDACK
+       # RST & /MEMR & /BIOSSEL
+       # RST & /MEMW & /BIOSSEL
+
+/DIR = /MEMR & /BIOSSEL
+    # /IOR
+
+/RAMWR = RST & /MEMW & A11 & A12 & /BIOSSEL
+
+
+/CP = RST & /IOSEL & A3 & /IOW
+
+DESCRIPTION
+NCL501 8-bit IBM ISA SCSI Card

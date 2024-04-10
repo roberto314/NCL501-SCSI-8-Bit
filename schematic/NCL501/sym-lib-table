@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "SparkFun-Connectors")(type "Legacy")(uri "/home/rob/Nextcloud/Documents/Elektronik/kicad/Libraries/SparkFun-Kicad-Libraries-master/SparkFun-Connectors.lib")(options "")(descr ""))
+)
