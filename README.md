@@ -15,14 +15,15 @@ The new card looks like this:
 
 Changes are:
 
-* active termination or passive Termination.
+* active termination or passive Termination possible.
 * Term Power with Jumper
 * DB25 Connector instead of DB37
+* smaller (97.75 x 135mm)
 
 For active Termination the following Parts are needed:
 
     - C12: 470p Footprint 1206
 
     - C13, C14: 100n Footprint 1206
-    
+
     - U11: MIC5219 2.85V Regulator SOT-23-5
