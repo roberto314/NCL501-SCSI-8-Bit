@@ -10,6 +10,7 @@
     (rev "v1")
     (company "100% Offner")
     (comment 1 "v0.1: Initial")
+    (comment 2 "v1: first manufactured Version (active Termination added)")
   )
 
   (lib_symbols
