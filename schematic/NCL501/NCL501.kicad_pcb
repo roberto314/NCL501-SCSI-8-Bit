@@ -3629,7 +3629,7 @@
   (gr_text "JP4: internal Term. Volt. settings.\nleft (Default): 5V, right: 2.85V\nfor 5V use 220 / 330E 8pin \nResistor Packs\nfor 2.85 use 110E 7pin RPacks.\nInsert then from pin 2-8\nwith Pin1 at Pin 8 from \nSocket." (at 235.712 55.372 270) (layer "F.SilkS") (tstamp 4f74b011-7194-4a39-8ff6-5ecd0cc65af9)
     (effects (font (size 1.2 1.2) (thickness 0.2) bold) (justify left bottom))
   )
-  (gr_text "Term Power" (at 226.949 136.906) (layer "F.SilkS") (tstamp 691fa6a0-eb76-431f-a7f8-360b55d53d11)
+  (gr_text "Term Power" (at 225.044 136.906) (layer "F.SilkS") (tstamp 691fa6a0-eb76-431f-a7f8-360b55d53d11)
     (effects (font (size 1.5 1.5) (thickness 0.25) bold) (justify left bottom))
   )
   (gr_text "C B A" (at 177.8 129.794) (layer "F.SilkS") (tstamp 9f9df973-43e6-49e8-9752-df2d5e418dba)
