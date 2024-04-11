@@ -20,6 +20,9 @@ Changes are:
 * DB25 Connector instead of DB37
 
 For active Termination the following Parts are needed:
+
     - C12: 470p Footprint 1206
+
     - C13, C14: 100n Footprint 1206
+    
     - U11: MIC5219 2.85V Regulator SOT-23-5
