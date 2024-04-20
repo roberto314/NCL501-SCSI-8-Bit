@@ -13,6 +13,10 @@ BIOS EPROM is a 27C64 Type, RAM is not poplated but a 6116 might be used (24-pin
 The new card looks like this:
 ![](pics/New%20Card%20Rendering.png)
 
+or the real thing:
+![](pics/PCB_Complete.jpg)
+
+
 Changes are:
 
 * active termination or passive Termination possible.
@@ -27,3 +31,4 @@ For active Termination the following Parts are needed:
     - C13, C14: 100n Footprint 1206
 
     - U11: MIC5219 2.85V Regulator SOT-23-5
+

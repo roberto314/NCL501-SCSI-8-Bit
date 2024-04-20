@@ -33,13 +33,9 @@ A12 RAMWR A11 CP SCSICS DATEN DIR RAMCE ROMCE  VCC
 /ROMCE = RST & /BIOSSEL & /A11 
        # RST & /BIOSSEL & /A12 ; A11 or A12 can be high, not both
 
-;/ROMCE = RST & /BIOSSEL
-
 /RAMCE = RST & /BIOSSEL & A11 & A12 ; Ram is selected when A11 & A12 is high
 
 /SCSICS = RST & /IOSEL & /A3 & SDACK
-
-;DATEN = BIOSSEL & /MEMR
 
 /DATEN = RST & /IOR & /IOSEL
        # RST & /IOW & /IOSEL
@@ -47,8 +43,6 @@ A12 RAMWR A11 CP SCSICS DATEN DIR RAMCE ROMCE  VCC
        # RST & /IOW & /SDACK
        # RST & /MEMR & /BIOSSEL
        # RST & /MEMW & /BIOSSEL
-
-;DIR = IOR & MEMR
 
 DIR = IOR & MEMR
     # MEMW & BIOSSEL & IOR
