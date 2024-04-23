@@ -6216,7 +6216,8 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 51c791a8-3fc4-4714-b711-99de6dc25c40)
   )
-  (text "IO 300-370\nall closed: 300\nB: +10\nA: +20\nC: +40" (at 15.24 154.94 0)
+  (text "IO 300-370\nall closed: 300\nB: +10\nA: +20\nC: +40\n0x330 is the only one working!"
+    (at 15.24 154.94 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 56950d13-55d4-4427-954c-b97687f9ef9d)
   )
