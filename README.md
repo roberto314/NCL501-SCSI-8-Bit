@@ -34,7 +34,8 @@ For active Termination the following Parts are needed:
 
 This Adapter has some serious shortcomings:
 
-In my Computer it ONLY works with IRQ3, DRQ/DACK 3, ROM @ D8000 and IO @ 330!
+In my Computer (micro8088) it ONLY works with DRQ/DACK 3, ROM @ D8000 and IO @ 330!
+IRQ doesn't matter also the RAM onboard is not necessary.
 
 I tested the following Images:
 
@@ -61,12 +62,25 @@ Heads and Sectors working:
 * C: 359 / H:16 / S:32 90 MB (FAT16/4) with sectors/fat=0xD0 instead of 0x100: doesn't work, hangs
 * C: 359 / H:16 / S:32 90 MB (FAT16/4) with sectors/fat=0xE0 instead of 0x100: doesn't work, hangs
 * C: 479 / H:16 / S:32 120 MB (FAT16/4) with sectors/fat=0xF0 instead of 0x100: doesn't work (non-system disk)
+* C: 511 / H:16 / S:32 128 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: works
 * C: 515 / H:16 / S:32 129 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: works
+* C: 763 / H:16 / S:32 191 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: works
 * C: 767 / H:16 / S:32 192 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: works
+* C:1019 / H:16 / S:32 255 MB (FAT16/6) with spf=0x80,spc=16  works
+* C:1023 / H:16 / S:32 256 MB (FAT16/6) with spf=0x80,spc=16  works
+* C: 741 / H:16 / S:33 191 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: doesn't work (non-system disk)
+* C: 1006 / H:14 / S:48 330 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: doesn't work (non-system disk)
+* C:  510 / H:16 / S:48 191 MB (FAT16/6) with sectors/fat=0xC0 instead of 0x100: doesn't work (non-system disk)
+* C:  620 / H:16 / S:62 300 MB (FAT16/6) with spf=0x100,spc=16: doesn't work (non-system disk)
+* C:  620 / H:16 / S:62 300 MB (FAT16/6) with spf=0x80,spc=32: doesn't work (non-system disk)
+* C:  620 / H:16 / S:62 300 MB (FAT16/6) with spf=0x80,spc=32: doesn't work (non-system disk)
+* C:  262 / H:16 / S:63 300 MB (FAT16/6) with spf=0xFC,spc=16: doesn't work (non-system disk)
+* C:  262 / H:16 / S:63 300 MB (FAT16/6) with spf=0xC0,spc=16: doesn't work (non-system disk)
  
 * C: 127 / H:16 / S:32 32 MB doesn't work (non-system disk)
 * C: 479 / H:8  / S:32 60 MB doesn't work (non-system disk)
 * C: 511 / H:8  / S:32 64 MB doesn't work (non-system disk)
+* C: 197 / H:32 / S:32 99 MB (FAT16/4) with sectors/fat=0xC0 instead of 0x100: doesn't work (non-system disk)
 * C:1023 / H:8  / S:32 128 MB doesn't work (non-system disk)
 * C:1023 / H:16 / S:32 256 MB doesn't work (non-system disk)
 * C:1019 / H:16 / S:32 255 MB doesn't work (non-system disk)
@@ -74,4 +88,9 @@ Heads and Sectors working:
 * C: 511 / H:16 / S:32 128 MB (FAT16/4) with sectors/fat=0x40 instead of 0x100: doesn't work (non-system disk)
 * C: 503 / H:16 / S:32 126 MB (FAT16/4) with sectors/fat=0x40 instead of 0x100: doesn't work (non-system disk)
 
-Limits are: sectors/fat Value only 8-bit and only some values are possible (0x40, 0x60, 0x80, 0xC0)
+Limits are: 
+
+* sectors/fat Value only 8-bit and only some values are possible (0x40, 0x60, 0x80, 0xC0) but only 0x80 works correctly.
+* Heads: 16
+* Sectors: 32 (maybe more, but i haven't found a value that works!)
+* Cylinders: 1023 
