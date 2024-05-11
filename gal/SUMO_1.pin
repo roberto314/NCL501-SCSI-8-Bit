@@ -1,0 +1,25 @@
+
+
+ Pin # | Name     | Pin Type
+-----------------------------
+   1   | IOSEL    | Input
+   2   | BIOSEL   | Input
+   3   | A3       | Input
+   4   | IOW      | Input
+   5   | IOR      | Input
+   6   | SDACK    | Input
+   7   | RST      | Input
+   8   | MEMR     | Input
+   9   | MEMW     | Input
+  10   | GND      | GND
+  11   | A12      | Input
+  12   | RAMWR    | Output
+  13   | Q0       | Input
+  14   | CP       | Output
+  15   | SCSICS   | Output
+  16   | DRQEN    | Output
+  17   | DIR      | Output
+  18   | RAMCE    | Output
+  19   | ROMCE    | Output
+  20   | VCC      | VCC
+

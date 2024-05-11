@@ -98,7 +98,7 @@ spf = sectors/fat, spc = sectors/cluster
 
 Limits are: 
 
-* spf Value only 8-bit and only some values are possible (0x40, 0x60, 0x80, 0xC0) but only 0x80 works correctly.
-* Heads: 16
-* Sectors: 32 (maybe more, but i haven't found a value that works!)
-* Cylinders: 1023 
+* spf Value only 8-bit and only some values are possible.
+* Size 503MB for now.
+
+The Card can be hacked to be a SUMO SCSI Card with reasonable effort.

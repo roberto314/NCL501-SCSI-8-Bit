@@ -1,0 +1,69 @@
+GAL16V8
+; Version: 1
+; Version History:
+; v1: first functional Version
+
+; Signal Connections
+;1    2       3  4   5   6     7   8    9    10 
+IOSEL BIOSEL A3 IOW IOR SDACK RST MEMR MEMW GND
+A12 RAMWR Q0 CP SCSICS DRQEN DIR RAMCE ROMCE  VCC
+;11 12    13  14 15     16    17  18     19     20
+
+; IOSEL   - In - Low Active - from LS688 U7
+; BIOSEL - In - Low Active - from LS688 U8
+; A3      - In - ISA Address 
+; A11     - In - ISA Address 
+;####################################################
+; A12     - In - ISA Address (Latched D0 in SUMO)
+; Q0      - In - Latched D0  - needs to be patched
+;####################################################
+; IOW     - In - Low Active - ISA IO Write
+; IOR     - In - Low Active - ISA IO Read
+; MEMW    - In - Low Active - ISA Memory Write
+; MEMR    - In - Low Active - ISA Memory Read
+; RST     - In - Low Active - ISA Inverted Reset
+; SDACK   - In - Low Active - DACK from 53C80 (Not Connected in SUMO)
+; RAMWR   - Out - LowActive - /WE Signal to 6116 RAM Chip
+; RAMCE   - Out - LowActive - /CE Signal to 6116 RAM Chip
+; ROMCE   - Out - LowActive - /CE Signal to 27C64 ROM Chip
+; SCSICS  - Out - LowActive - /CE Signal to 53C80 Chip
+; CP      - Out - Clock Pulse to LS175 U1
+; DATEN   - Out - LowActive - to LS245 U9 Enable (DRQEN in SUMO)
+; DIR     - Out - to LS245 U9 High: A->B (Write), Low Read
+;####################################################
+; DRQEN   - Out - Output to U10 - needs to be patched
+;####################################################
+
+;EQUATIONS
+
+CP = !A3 # IOSEL # IOW ; Looks like the same
+; /CP = RST & /IOSEL & A3 & /IOW 
+
+
+SCSICS = IOW & IOR # IOSEL # A3 # Q0 ; Looks different
+; /SCSICS = RST & /IOSEL & /A3 & SDACK
+
+;/DATEN = RST & /IOR & /IOSEL
+;       # RST & /IOW & /IOSEL
+;       # RST & /MEMR & /BIOSEL
+;       # RST & /MEMW & /BIOSEL
+
+DRQEN = IOW & IOR # !Q0 # IOSEL # A3 ;
+
+;DIR = IOR & MEMR
+;    # MEMW & BIOSEL & IOR ; probably the same
+DIR = IOSEL & BIOSEL # BIOSEL & IOR # IOSEL & MEMR # IOR & MEMR ;
+
+RAMCE = MEMR & MEMW # !A12 # BIOSEL ;
+;/RAMCE = RST & /BIOSEL & A11 & A12 ; Ram is selected when A11 & A12 is high
+
+RAMWR = !A12 # BIOSEL # MEMW ;
+;/RAMWR = RST & /MEMW & A11 & A12 & /BIOSEL
+
+ROMCE = A12 # BIOSEL # MEMR ;
+;/ROMCE = RST & /BIOSEL & /A11 
+;       # RST & /BIOSEL & /A12 ; A11 or A12 can be high, not both
+
+
+DESCRIPTION
+NCL501 8-bit IBM ISA SCSI Card with SUMO BIOS
