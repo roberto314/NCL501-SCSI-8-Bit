@@ -101,4 +101,4 @@ Limits are:
 * spf Value only 8-bit and only some values are possible.
 * Size 503MB for now.
 
-The Card can be hacked to be a SUMO SCSI Card with reasonable effort.
+The Card can be hacked to be a SUMO SCSI Card with reasonable effort (by omitting U12-14). Then the ASPI Driver ZHA.SYS and ZDRV.SYS will work.
